@@ -4,12 +4,12 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 
-namespace CassBreaker
+namespace CaseBreaker
 {
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
-    public class CassBreaker : Game
+    public class CaseBreaker : Game
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
@@ -54,7 +54,7 @@ namespace CassBreaker
         KeyboardState oldKbState;
 
 
-        public CassBreaker()
+        public CaseBreaker()
         {
             graphics = new GraphicsDeviceManager(this)
             {

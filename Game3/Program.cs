@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CassBreaker
+namespace CaseBreaker
 {
 #if WINDOWS || LINUX
     /// <summary>
@@ -14,7 +14,7 @@ namespace CassBreaker
         [STAThread]
         static void Main()
         {
-            using (var game = new CassBreaker())
+            using (var game = new CaseBreaker())
                 game.Run();
         }
     }
