@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CaseBreaker
 {
-    class Brick
+    public class Brick
     {
         public int Width { get; protected set; }
         public int Height { get; protected set; }

@@ -14,7 +14,7 @@ namespace CaseBreaker
         [STAThread]
         static void Main()
         {
-            using (var game = new CaseBreaker())
+            using (var game = new MainGame())
                 game.Run();
         }
     }

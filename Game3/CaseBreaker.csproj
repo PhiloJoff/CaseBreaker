@@ -43,7 +43,14 @@
   <ItemGroup>
     <Compile Include="Ball.cs" />
     <Compile Include="Brick.cs" />
-    <Compile Include="CaseBreaker.cs" />
+    <Compile Include="SceneGameOver.cs" />
+    <Compile Include="SceneWin.cs" />
+    <Compile Include="ScenePause.cs" />
+    <Compile Include="SceneGameplay.cs" />
+    <Compile Include="SceneMainMenu.cs" />
+    <Compile Include="MainGame.cs" />
+    <Compile Include="Pattern\GameState.cs" />
+    <Compile Include="Pattern\Scene.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Racket.cs" />
