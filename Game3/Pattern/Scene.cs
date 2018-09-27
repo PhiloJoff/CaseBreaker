@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CaseBreaker
 { 
-    abstract class Scene
+    abstract public class Scene
     {
         protected MainGame mainGame;
         protected GraphicsDeviceManager Graphic;
@@ -22,6 +22,7 @@ namespace CaseBreaker
             Graphic = mainGame.graphics;
             WindowWidth = Graphic.PreferredBackBufferWidth;
             WindowHeight = Graphic.PreferredBackBufferHeight;
+            this.Load();
         }
 
         public virtual void Load()

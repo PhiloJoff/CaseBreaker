@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CaseBreaker
 {
-    class GameState
+    public class GameState
     {
         public enum SceneType {
             MainMenu,
@@ -16,7 +16,7 @@ namespace CaseBreaker
             Win
         }
         protected MainGame MainGame;
-        public Scene CurrentScene {get; set;}
+        public Scene CurrentScene {get; protected set;}
 
         public GameState(MainGame mainGame)
         {

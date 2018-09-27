@@ -54,6 +54,7 @@ namespace CaseBreaker
 
         public override void Load()
         {
+            mainGame.IsMouseVisible = false;
             racketWidth = 100;
             racketHeight = 15;
 
@@ -103,7 +104,6 @@ namespace CaseBreaker
                 {
                     if (uneRacket.Pos.X <= 1)
                     {
-                        //uneRacket.Pos = new Vector2(1, uneRacket.Pos.Y);
                         uneRacket.Pos.X = 1;
                     }
                     else
@@ -124,23 +124,26 @@ namespace CaseBreaker
                     }
                 }
 
-                if (ballPos.X >= WindowWidth - ballSize)
+                if (ballPos.X > WindowWidth - ballSize)
                 {
+                    ballPos.X = WindowWidth - ballSize;
                     ballDirectionX = -1;
                 }
 
-                if (ballPos.X <= 0)
+                if (ballPos.X < 0)
                 {
+                    ballPos.X = 0;
                     ballDirectionX = 1;
                 }
 
                 if (ballPos.Y >= WindowHeight - ballSize)
                 {
-                    ballDirectionY = -1;
+                    mainGame.gameState.SwitchScene(GameState.SceneType.Gameplay);
                 }
 
-                if (ballPos.Y <= 0)
+                if (ballPos.Y < 0)
                 {
+                    ballPos.Y = 0;
                     ballDirectionY = 1;
                 }
 

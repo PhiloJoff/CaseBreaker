@@ -12,7 +12,7 @@ namespace CaseBreaker
         public SpriteBatch spriteBatch;
         private int windowWidth = 800;
         private int windowHeight = 600;
-        private GameState gameState;
+        public GameState gameState;
 
         KeyboardState keyboardState;
 
@@ -31,7 +31,7 @@ namespace CaseBreaker
 
         protected override void Initialize()
         {
-            gameState.SwitchScene(GameState.SceneType.Gameplay);
+            gameState.SwitchScene(GameState.SceneType.MainMenu);
             base.Initialize();
         }
 
