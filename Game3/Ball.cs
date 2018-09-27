@@ -38,34 +38,40 @@ namespace CaseBreaker
 
         public void Rebond(Brick b, ref int x, ref int y)
         {
-            if (b.Pos.X < this.Center.X && this.Center.X < b.Pos.X + b.Width)
-            { //TOP OR BOT
-                y *= -1;
-                if(this.Pos.Y <= b.Pos.Y)
-                {
-                    this.Pos.Y = b.Pos.Y - this.Height;
+            if (Util.IsColide((int)this.Pos.X, (int)this.Pos.Y,this.Width, this.Height,
+                (int)b.Pos.X, (int)b.Pos.Y, b.Width, b.Height) == true)
+                //if (this.IsColide(b) == true)
+            //if(Util.IsColide(this.Box, b.Box) == true)
+            {
+                if (b.Pos.X < this.Center.X && this.Center.X < b.Pos.X + b.Width)
+                { //TOP OR BOT
+                    y *= -1;
+                    if (this.Pos.Y <= b.Pos.Y)
+                    {
+                        this.Pos.Y = b.Pos.Y - this.Height;
+                    }
+                    else if (this.Pos.Y >= b.Pos.Y + b.Height)
+                    {
+                        this.Pos.Y = b.Pos.Y + b.Height;
+                    }
                 }
-                else if (this.Pos.Y >= b.Pos.Y + b.Height)
-                {
-                    this.Pos.Y = b.Pos.Y + b.Height;
+                else if (b.Pos.Y < this.Center.Y && this.Center.Y < b.Pos.Y + b.Height)
+                {   //RIGHT OR LEFT
+                    x *= -1;
+                    if (this.Pos.X <= b.Pos.X)
+                    {
+                        this.Pos.X = b.Pos.X - this.Height;
+                    }
+                    else if (this.Pos.X >= b.Pos.X + b.Width)
+                    {
+                        this.Pos.X = b.Pos.X + b.Width;
+                    }
                 }
-            } else if (b.Pos.Y < this.Center.Y && this.Center.Y < b.Pos.Y + b.Height)
-            {   //RIGHT OR LEFT
-                x *= -1;
-                if (this.Pos.X <= b.Pos.X)
-                {
-                    this.Pos.X = b.Pos.X - this.Height;
-                }
-                else if (this.Pos.X >= b.Pos.X + b.Width)
-                {
-                    this.Pos.X = b.Pos.X + b.Width;
-                }
-            }
-                
-           
 
-            if (b.GetType() != typeof(Racket))
-                b.Power += -1;
+                if (b.GetType() != typeof(Racket))
+                    b.Power += -1;
+            }
+                      
         }
     }
 }

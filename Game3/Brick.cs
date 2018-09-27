@@ -16,6 +16,7 @@ namespace CaseBreaker
         public int Power { get; set; }
         public Texture2D Rect{  get; protected set; }
 
+        public Rectangle Box { get; set; }
         protected Color[] data;
 
         public Brick(Vector2 pos, int power, GraphicsDeviceManager graphics)
@@ -24,10 +25,11 @@ namespace CaseBreaker
             this.Height = 20;
             this.Pos = pos;
             this.Power = power;
+            this.Box = new Rectangle((int)this.Pos.X, (int)this.Pos.Y, this.Width, this.Height);
 
             data = new Color[Width * Height];
             Rect = new Texture2D(graphics.GraphicsDevice, this.Width, this.Height);
-            this.setColor(this, graphics);
+            this.SetColor(this, graphics);
         }
 
         public Brick(int width, int height, Vector2 pos, int power, GraphicsDeviceManager graphics)
@@ -36,15 +38,16 @@ namespace CaseBreaker
             this.Height = height;
             this.Pos = pos;
             this.Power = power;
+            this.Box = new Rectangle((int)this.Pos.X, (int)this.Pos.Y, this.Width, this.Height);
 
             data = new Color[width * height];
             Rect = new Texture2D(graphics.GraphicsDevice, this.Width, this.Height);
-            this.setColor(this, graphics);
+            this.SetColor(this, graphics);
         }
 
         
 
-        public void setColor(Brick b, GraphicsDeviceManager graphics)
+        public void SetColor(Brick b, GraphicsDeviceManager graphics)
         {
             switch (this.Power)
             {

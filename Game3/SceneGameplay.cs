@@ -96,6 +96,9 @@ namespace CaseBreaker
 
             if (isRunning == true)
             {
+                uneBall.Box = new Rectangle((int)uneBall.Pos.X, (int)uneBall.Pos.Y, uneBall.Width, uneBall.Height);
+
+                uneRacket.Box = new Rectangle((int)uneRacket.Pos.X, (int)uneRacket.Pos.Y, uneRacket.Width, uneRacket.Height);
                 if (keyboardState.IsKeyDown(Keys.Left))
                 {
                     if (uneRacket.Pos.X <= 1)
@@ -147,24 +150,21 @@ namespace CaseBreaker
                 uneBall.Center.Y = uneBall.Pos.Y + (uneBall.Height / 2);
 
 
-                if (uneBall.IsColide(uneRacket))
-                    uneBall.Rebond(uneRacket, ref ballDirectionX, ref ballDirectionY);
+                uneBall.Rebond(uneRacket, ref ballDirectionX, ref ballDirectionY);
                 for(int i = 0; i < mesBricks.Count; i++)
                 {
                     if (mesBricks[i].Power != 0)
                     {
-                        if (uneBall.IsColide(mesBricks[i]))
-                        {
-                            uneBall.Rebond(mesBricks[i], ref ballDirectionX, ref ballDirectionY);
-                        }
-                        mesBricks[i].setColor(mesBricks[i], Graphic);
+                        uneBall.Rebond(mesBricks[i], ref ballDirectionX, ref ballDirectionY);
+                        mesBricks[i].SetColor(mesBricks[i], Graphic);
                     }
                     else
                     {
                         mesBricks.Remove(mesBricks[i]);
                     }
                 }
-
+                
+                
             }
             base.Update(gameTime);
         }
