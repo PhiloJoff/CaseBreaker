@@ -40,8 +40,6 @@ namespace CaseBreaker
         Ball uneBall;
         int ballSize;
         Vector2 ballPos;
-        int ballDirectionX;
-        int ballDirectionY;
 
         bool isRunning;
 
@@ -58,8 +56,6 @@ namespace CaseBreaker
             racketWidth = 100;
             racketHeight = 15;
 
-            ballDirectionX = 1;
-            ballDirectionY = -1;
             ballSize = 15;
             mesBricks = new List<Brick>();
             mesBricks = GenerateMap(map);
@@ -87,7 +83,7 @@ namespace CaseBreaker
             keyboardState = Keyboard.GetState();
             ballPos = uneBall.Pos;
 
-            
+
             if (keyboardState.IsKeyDown(Keys.Space) && oldKbState.IsKeyDown(Keys.Space) != true)
             {
                 oldKbState = Keyboard.GetState();
@@ -127,13 +123,13 @@ namespace CaseBreaker
                 if (ballPos.X > WindowWidth - ballSize)
                 {
                     ballPos.X = WindowWidth - ballSize;
-                    ballDirectionX = -1;
+                    uneBall.ballDirectionX = -1;
                 }
 
                 if (ballPos.X < 0)
                 {
                     ballPos.X = 0;
-                    ballDirectionX = 1;
+                    uneBall.ballDirectionX = 1;
                 }
 
                 if (ballPos.Y >= WindowHeight - ballSize)
@@ -144,21 +140,21 @@ namespace CaseBreaker
                 if (ballPos.Y < 0)
                 {
                     ballPos.Y = 0;
-                    ballDirectionY = 1;
+                    uneBall.ballDirectionY = 1;
                 }
 
-                uneBall.Pos.X = uneBall.Pos.X + uneBall.Speed * ballDirectionX;
-                uneBall.Pos.Y = uneBall.Pos.Y + uneBall.Speed * ballDirectionY;
+                uneBall.Pos.X = uneBall.Pos.X + uneBall.Speed * uneBall.ballDirectionX * (float)Math.Abs(Math.Cos(uneBall.AngleX));
+                uneBall.Pos.Y = uneBall.Pos.Y + uneBall.Speed * uneBall.ballDirectionY * (float)Math.Abs(Math.Sin(uneBall.AngleY));
                 uneBall.Center.X = uneBall.Pos.X + (uneBall.Width / 2);
                 uneBall.Center.Y = uneBall.Pos.Y + (uneBall.Height / 2);
 
 
-                uneBall.Rebond(uneRacket, ref ballDirectionX, ref ballDirectionY);
-                for(int i = 0; i < mesBricks.Count; i++)
+                uneBall.Rebond(uneRacket, ref uneBall.ballDirectionX, ref uneBall.ballDirectionY);
+                for (int i = 0; i < mesBricks.Count; i++)
                 {
                     if (mesBricks[i].Power != 0)
                     {
-                        uneBall.Rebond(mesBricks[i], ref ballDirectionX, ref ballDirectionY);
+                        uneBall.Rebond(mesBricks[i], ref uneBall.ballDirectionX, ref uneBall.ballDirectionY);
                         mesBricks[i].SetColor(mesBricks[i], Graphic);
                     }
                     else
@@ -166,15 +162,15 @@ namespace CaseBreaker
                         mesBricks.Remove(mesBricks[i]);
                     }
                 }
-                
-                
+
+
             }
             base.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)
         {
-            
+
             foreach (Brick b in mesBricks)
             {
                 if (b.Power >= 1)

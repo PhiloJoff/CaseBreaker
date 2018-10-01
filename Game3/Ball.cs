@@ -12,15 +12,23 @@ namespace CaseBreaker
     {
         public float Speed { get; set; }
         public Vector2 Center;
+        public float AngleX;
+        public float AngleY;
+        public int ballDirectionX;
+        public int ballDirectionY;
 
         public Ball(int width, int height, Vector2 pos, int power, GraphicsDeviceManager graphics) : base(width, height, pos, power, graphics)
         {
-            this.Speed = 3;
+            this.Speed = 4;
             Rect = new Texture2D(graphics.GraphicsDevice, width, height);
             for (int i = 0; i < data.Length; ++i) data[i] = Color.Red;
             Rect.SetData(data);
             this.Center = new Vector2(this.Pos.X + (this.Width / 2), this.Pos.Y + (this.Height / 2));
-        }
+            this.AngleX = 45;
+            this.AngleY = 45;
+            ballDirectionX = 1;
+            ballDirectionY = -1;
+    }
 
         public bool IsColide(Brick b)
         {
@@ -46,11 +54,43 @@ namespace CaseBreaker
                 if (b.Pos.X < this.Center.X && this.Center.X < b.Pos.X + b.Width)
                 { //TOP OR BOT
                     y *= -1;
-                    if (this.Pos.Y <= b.Pos.Y)
+                    if (this.Pos.Y <= b.Pos.Y) //TOP
                     {
                         this.Pos.Y = b.Pos.Y - this.Height;
+                        if(b.GetType() == typeof(Racket))
+                        {
+                            float midRacket = (b.Width / 2);
+                            if (this.ballDirectionX == 1)
+                            {
+                                float marge = this.Center.X - b.Pos.X;
+                                this.AngleX *= (marge / midRacket);
+                                if (this.AngleX >= 90)
+                                {
+                                    this.AngleX = 90;
+                                }
+                                else if (this.AngleX <= 1)
+                                {
+                                    this.AngleX = 1;
+                                }
+                            } else if (this.ballDirectionX == -1)
+                            {
+                                float marge = (b.Pos.X + b.Height) - this.Center.X ;
+                                this.AngleX *= (marge / midRacket);
+                                if (this.AngleX >= 90)
+                                {
+                                    this.AngleX = 90;
+                                }
+                                else if (this.AngleX <= 1)
+                                {
+                                    this.AngleX = 1;
+                                }
+                            }
+                           
+                            
+                            Console.WriteLine(this.AngleX);
+                        }
                     }
-                    else if (this.Pos.Y >= b.Pos.Y + b.Height)
+                    else if (this.Pos.Y + this.Height >= b.Pos.Y + b.Height) //BOT
                     {
                         this.Pos.Y = b.Pos.Y + b.Height;
                     }
@@ -62,9 +102,9 @@ namespace CaseBreaker
                     {
                         this.Pos.X = b.Pos.X - this.Height;
                     }
-                    else if (this.Pos.X >= b.Pos.X + b.Width)
+                    else if (this.Pos.X + this.Height >= b.Pos.X + b.Height)
                     {
-                        this.Pos.X = b.Pos.X + b.Width;
+                        this.Pos.X = b.Pos.X + b.Height;
                     }
                 }
 
