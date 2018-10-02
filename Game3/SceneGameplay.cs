@@ -39,7 +39,6 @@ namespace CaseBreaker
 
         Ball uneBall;
         int ballSize;
-        Vector2 ballPos;
 
         bool isRunning;
 
@@ -81,7 +80,6 @@ namespace CaseBreaker
                 mainGame.Exit();
 
             keyboardState = Keyboard.GetState();
-            ballPos = uneBall.Pos;
 
 
             if (keyboardState.IsKeyDown(Keys.Space) && oldKbState.IsKeyDown(Keys.Space) != true)
@@ -120,41 +118,41 @@ namespace CaseBreaker
                     }
                 }
 
-                if (ballPos.X > WindowWidth - ballSize)
+                if (uneBall.Pos.X > WindowWidth - ballSize)
                 {
-                    ballPos.X = WindowWidth - ballSize;
+                    uneBall.Pos.X = WindowWidth - ballSize;
                     uneBall.ballDirectionX = -1;
                 }
 
-                if (ballPos.X < 0)
+                if (uneBall.Pos.X < 0)
                 {
-                    ballPos.X = 0;
+                    uneBall.Pos.X = 0;
                     uneBall.ballDirectionX = 1;
                 }
 
-                if (ballPos.Y >= WindowHeight - ballSize)
+                if (uneBall.Pos.Y >= WindowHeight - ballSize)
                 {
                     mainGame.gameState.SwitchScene(GameState.SceneType.Gameplay);
                 }
 
-                if (ballPos.Y < 0)
+                if (uneBall.Pos.Y < 0)
                 {
-                    ballPos.Y = 0;
+                    uneBall.Pos.Y = 0;
                     uneBall.ballDirectionY = 1;
                 }
 
-                uneBall.Pos.X = uneBall.Pos.X + uneBall.Speed * uneBall.ballDirectionX * (float)Math.Abs(Math.Cos(uneBall.AngleX));
-                uneBall.Pos.Y = uneBall.Pos.Y + uneBall.Speed * uneBall.ballDirectionY * (float)Math.Abs(Math.Sin(uneBall.AngleY));
-                uneBall.Center.X = uneBall.Pos.X + (uneBall.Width / 2);
-                uneBall.Center.Y = uneBall.Pos.Y + (uneBall.Height / 2);
+                uneBall.Pos.X += uneBall.Speed * uneBall.ballDirectionX * (float)Math.Abs(Math.Cos(uneBall.Angle));
+                uneBall.Pos.Y += uneBall.Speed * uneBall.ballDirectionY * (float)Math.Abs(Math.Sin(uneBall.AngleConstant));
+                uneBall.Center.X = Math.Abs(uneBall.Pos.X + (uneBall.Width / 2));
+                uneBall.Center.Y = Math.Abs(uneBall.Pos.Y + (uneBall.Height / 2));
 
 
-                uneBall.Rebond(uneRacket, ref uneBall.ballDirectionX, ref uneBall.ballDirectionY);
+                uneBall.Rebond(uneRacket);
                 for (int i = 0; i < mesBricks.Count; i++)
                 {
                     if (mesBricks[i].Power != 0)
                     {
-                        uneBall.Rebond(mesBricks[i], ref uneBall.ballDirectionX, ref uneBall.ballDirectionY);
+                        uneBall.Rebond(mesBricks[i]);
                         mesBricks[i].SetColor(mesBricks[i], Graphic);
                     }
                     else
@@ -219,7 +217,7 @@ namespace CaseBreaker
                 mapConsole += "\n";
             }
 
-            Console.WriteLine(mapConsole);
+            //Console.WriteLine(mapConsole);
             return theBrick;
         }
     }
