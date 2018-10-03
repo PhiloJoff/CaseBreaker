@@ -15,7 +15,6 @@ namespace CaseBreaker
         private Vector2 buttonPosition;
         private MouseState oldMouseState;
         private MouseState mouseState;
-        private int cpt;
         public SceneMainMenu(MainGame mainGame) : base(mainGame)
         {
         }
@@ -28,7 +27,6 @@ namespace CaseBreaker
 
             oldMouseState = new MouseState();
             oldMouseState = Mouse.GetState();
-            cpt = 0;
             mouseState = new MouseState();
             base.Load();
         }

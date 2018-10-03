@@ -18,7 +18,6 @@ namespace CaseBreaker
 
         public Rectangle Box { get; set; }
         protected Color[] data;
-
         public Brick(Vector2 pos, int power, GraphicsDeviceManager graphics)
         {
             this.Width = 62;

@@ -12,7 +12,7 @@ namespace CaseBreaker
     {
         public float Speed { get; set; }
         public Vector2 Center;
-        public float Angle;
+        public float Angle { get; set; }
         public int ballDirectionX;
         public int ballDirectionY;
         public float AngleConstant { get; private set; }
@@ -60,36 +60,18 @@ namespace CaseBreaker
                         if (b.GetType() == typeof(Racket))
                         {
                             float midRacket = (b.Width / 2);
-                            if (this.ballDirectionX == 1)
+                            if (this.ballDirectionX == -1)
                             {
                                 float marge = this.Center.X - Math.Abs(b.Pos.X);
                                 this.Angle = AngleConstant * (marge / midRacket);
-                                //if (this.Angle >= 90)
-                                //{
-                                //    this.Angle = 90;
-                                //}
-                                //else if (this.Angle <= 1)
-                                //{
-                                //    this.Angle = 1;
-                                //}
                             }
-                            else if (this.ballDirectionX == -1)
+                            else if (this.ballDirectionX == 1)
                             {
                                 
                                 float marge = Math.Abs((b.Pos.X + b.Width)) - this.Center.X;
                                 this.Angle = AngleConstant * (marge / midRacket);
-                                //if (this.Angle >= 90)
-                                //{
-                                //    this.Angle = 90;
-                                //}
-                                //else if (this.Angle <= 1)
-                                //{
-                                //    this.Angle = 0;
-                                //}
                             }
-
-                            Console.WriteLine("Angle = {0} et Cos = {1}", this.Angle, (Math.Cos(this.Angle)));
-                            Console.WriteLine("Direction = {0} et Speed * Direction * Cos(Angle) = {1}", this.ballDirectionX, this.Speed * this.ballDirectionX * (float)Math.Abs(Math.Cos(this.Angle)));
+                            this.Speed += 0.05f;
                         }
                     }
                     else if (this.Pos.Y + this.Height >= b.Pos.Y + b.Height) //BOT
