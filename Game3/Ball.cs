@@ -51,7 +51,11 @@ namespace CaseBreaker
             //if (this.IsColide(b) == true)
             //if(Util.IsColide(this.Box, b.Box) == true)
             {
-                if (b.Pos.X < this.Center.X && this.Center.X < b.Pos.X + b.Width)
+
+                if ((b.Pos.X < this.Center.X && this.Center.X < b.Pos.X + b.Width) || 
+                    (b.Pos.X < this.Pos.X && this.Pos.X < b.Pos.X + b.Width)||
+                    (b.Pos.X < this.Pos.X + this.Width && this.Pos.X + this.Width < b.Pos.X + b.Width))
+                //if (b.Pos.X < this.Center.X && this.Center.X < b.Pos.X + b.Width)
                 { //TOP OR BOT
                     this.ballDirectionY *= -1;
                     if (this.Pos.Y <= b.Pos.Y) //TOP
@@ -79,7 +83,10 @@ namespace CaseBreaker
                         this.Pos.Y = b.Pos.Y + b.Height;
                     }
                 }
-                else if (b.Pos.Y < this.Center.Y && this.Center.Y < b.Pos.Y + b.Height)
+                else if ((b.Pos.Y < this.Center.Y && this.Center.Y < b.Pos.Y + b.Height) ||
+                    (b.Pos.Y < this.Pos.Y && this.Pos.Y < b.Pos.Y + b.Height) ||
+                    (b.Pos.Y < this.Pos.Y + this.Height && this.Pos.Y + this.Height < b.Pos.Y + b.Height))
+                //else if (b.Pos.Y < this.Center.Y && this.Center.Y < b.Pos.Y + b.Height)
                 {   //RIGHT OR LEFT
                     this.ballDirectionX *= -1;
                     if (this.Pos.X <= b.Pos.X)
