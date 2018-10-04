@@ -15,6 +15,9 @@ namespace CaseBreaker
         //Brick uneBrick;
         int brickWidth = 63;
         int brickHeight = 20;
+        int gameWidth = 500;
+        int gameHeight = 550;
+        Texture2D background;
         string[] map =
         {   "111111111111",
             "111111111111",
@@ -51,6 +54,7 @@ namespace CaseBreaker
             mainGame.IsMouseVisible = false;
             racketWidth = 100;
             racketHeight = 15;
+            
 
             ballSize = 15;
             mesBricks = new List<Brick>();
@@ -58,7 +62,7 @@ namespace CaseBreaker
 
 
             isRunning = false;
-
+            background = mainGame.Content.Load<Texture2D>("background");
             oldKbState = Keyboard.GetState();
             uneRacket = new Racket(racketWidth, racketHeight, new Vector2((WindowWidth / 2) - (racketWidth / 2), WindowHeight - racketHeight - 5), 1, Graphic);
             uneBall = new Ball(ballSize, ballSize, new Vector2((WindowWidth / 2) - (ballSize / 2), uneRacket.Pos.Y - ballSize), 1, Graphic);
@@ -184,6 +188,7 @@ namespace CaseBreaker
             if (uneBall.Power >= 1)
                 spriteBatch.Draw(uneBall.Rect, uneBall.Pos, Color.White);
 
+            spriteBatch.Draw(background, Vector2.Zero, Color.White);
             base.Draw(gameTime);
         }
 
@@ -192,16 +197,16 @@ namespace CaseBreaker
         private List<Brick> GenerateMap(string[] theMap)
         {
             List<Brick> theBrick = new List<Brick>();
-            int X = -1;
-            int Y = 0;
+            float X = 0;
+            float Y = 0;
             string mapConsole = "\n";
             int toNumber;
             bool isNumber;
 
             for (int i = 0; i < theMap.Length; i++)
             {
-                Y += 4;
-                X += 4;
+                Y += 0.3125f;
+                X += 0.3125f;
                 foreach (char c in theMap[i])
                 {
                     mapConsole += c;
@@ -211,11 +216,11 @@ namespace CaseBreaker
                         if (c != 0)
                             theBrick.Add(new Brick(new Vector2(X, Y), toNumber, Graphic));
                     }
-                    X += 4 + brickWidth;
+                    X += 0.3125f + brickWidth;
 
                 }
                 Y += brickHeight;
-                X = -1;
+                X = 0.3125f;
                 mapConsole += "\n";
             }
 
