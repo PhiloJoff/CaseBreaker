@@ -20,7 +20,7 @@ namespace CaseBreaker
         protected Color[] data;
         public Brick(Vector2 pos, int power, GraphicsDeviceManager graphics)
         {
-            this.Width = 33;
+            this.Width = 39;
             this.Height = 20;
             this.Pos = pos;
             this.Power = power;

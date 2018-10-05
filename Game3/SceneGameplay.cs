@@ -13,10 +13,11 @@ namespace CaseBreaker
     {
         private List<Brick> mesBricks;
         //Brick uneBrick;
-        int brickWidth = 63;
+        int brickWidth = 39;
         int brickHeight = 20;
-        int gameWidth = 500;
-        int gameHeight = 550;
+        int margeGameRect = 25;
+        int gameWidth = 525;
+        int gameHeight = 575;
         Texture2D background;
         string[] map =
         {   "111111111111",
@@ -62,10 +63,10 @@ namespace CaseBreaker
 
 
             isRunning = false;
-            background = mainGame.Content.Load<Texture2D>("background");
+            background = mainGame.Content.Load<Texture2D>("Bgd");
             oldKbState = Keyboard.GetState();
-            uneRacket = new Racket(racketWidth, racketHeight, new Vector2((WindowWidth / 2) - (racketWidth / 2), WindowHeight - racketHeight - 5), 1, Graphic);
-            uneBall = new Ball(ballSize, ballSize, new Vector2((WindowWidth / 2) - (ballSize / 2), uneRacket.Pos.Y - ballSize), 1, Graphic);
+            uneRacket = new Racket(racketWidth, racketHeight, new Vector2((gameWidth / 2) - (racketWidth / 2),  550), 1, Graphic);
+            uneBall = new Ball(ballSize, ballSize, new Vector2((gameWidth / 2) - (ballSize / 2), uneRacket.Pos.Y - ballSize), 1, Graphic);
             base.Load();
         }
 
@@ -97,9 +98,9 @@ namespace CaseBreaker
                 uneRacket.Box = new Rectangle((int)uneRacket.Pos.X, (int)uneRacket.Pos.Y, uneRacket.Width, uneRacket.Height);
                 if (keyboardState.IsKeyDown(Keys.Left))
                 {
-                    if (uneRacket.Pos.X <= 1)
+                    if (uneRacket.Pos.X <= margeGameRect)
                     {
-                        uneRacket.Pos.X = 1;
+                        uneRacket.Pos.X = margeGameRect;
                     }
                     else
                     {
@@ -109,9 +110,9 @@ namespace CaseBreaker
 
                 if (keyboardState.IsKeyDown(Keys.Right))
                 {
-                    if (uneRacket.Pos.X >= WindowWidth - racketWidth - 1)
+                    if (uneRacket.Pos.X >= gameWidth - racketWidth - 1)
                     {
-                        uneRacket.Pos.X = WindowWidth - racketWidth - 1;
+                        uneRacket.Pos.X = gameWidth - racketWidth - 1;
                     }
                     else
                     {
@@ -119,26 +120,26 @@ namespace CaseBreaker
                     }
                 }
 
-                if (uneBall.Pos.X > WindowWidth - ballSize)
+                if (uneBall.Pos.X > gameWidth - ballSize)
                 {
-                    uneBall.Pos.X = WindowWidth - ballSize;
+                    uneBall.Pos.X = gameWidth - ballSize;
                     uneBall.ballDirectionX = -1;
                 }
 
-                if (uneBall.Pos.X < 0)
+                if (uneBall.Pos.X < margeGameRect)
                 {
-                    uneBall.Pos.X = 0;
+                    uneBall.Pos.X = margeGameRect;
                     uneBall.ballDirectionX = 1;
                 }
 
-                if (uneBall.Pos.Y >= WindowHeight - ballSize)
+                if (uneBall.Pos.Y >= gameHeight - ballSize)
                 {
                     mainGame.gameState.SwitchScene(GameState.SceneType.Gameplay);
                 }
 
-                if (uneBall.Pos.Y < 0)
+                if (uneBall.Pos.Y < margeGameRect)
                 {
-                    uneBall.Pos.Y = 0;
+                    uneBall.Pos.Y = margeGameRect;
                     uneBall.ballDirectionY = 1;
                 }
 
@@ -175,6 +176,8 @@ namespace CaseBreaker
         public override void Draw(GameTime gameTime)
         {
 
+
+            spriteBatch.Draw(background, Vector2.Zero, Color.White);
             foreach (Brick b in mesBricks)
             {
                 if (b.Power >= 1)
@@ -187,8 +190,6 @@ namespace CaseBreaker
 
             if (uneBall.Power >= 1)
                 spriteBatch.Draw(uneBall.Rect, uneBall.Pos, Color.White);
-
-            spriteBatch.Draw(background, Vector2.Zero, Color.White);
             base.Draw(gameTime);
         }
 
@@ -197,16 +198,16 @@ namespace CaseBreaker
         private List<Brick> GenerateMap(string[] theMap)
         {
             List<Brick> theBrick = new List<Brick>();
-            float X = 0;
-            float Y = 0;
+            float X = 27f;
+            float Y = 25f;
             string mapConsole = "\n";
             int toNumber;
             bool isNumber;
 
             for (int i = 0; i < theMap.Length; i++)
             {
-                Y += 0.3125f;
-                X += 0.3125f;
+                Y += 2f;
+                X += 2f;
                 foreach (char c in theMap[i])
                 {
                     mapConsole += c;
@@ -216,11 +217,11 @@ namespace CaseBreaker
                         if (c != 0)
                             theBrick.Add(new Brick(new Vector2(X, Y), toNumber, Graphic));
                     }
-                    X += 0.3125f + brickWidth;
+                    X += 2f + brickWidth;
 
                 }
                 Y += brickHeight;
-                X = 0.3125f;
+                X = 27f;
                 mapConsole += "\n";
             }
 
