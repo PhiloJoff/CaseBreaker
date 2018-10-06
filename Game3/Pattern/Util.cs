@@ -12,6 +12,11 @@ namespace CaseBreaker
      {
         static Random RNG = new Random();
 
+        public static int GetRandom(int min, int max)
+        {
+            return RNG.Next(min, max + 1);
+        }
+
         public static bool IsColide(Rectangle a, Rectangle b)
         {
 

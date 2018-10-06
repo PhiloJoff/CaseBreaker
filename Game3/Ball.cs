@@ -19,25 +19,25 @@ namespace CaseBreaker
 
         public Ball(int width, int height, Vector2 pos, int power, GraphicsDeviceManager graphics) : base(width, height, pos, power, graphics)
         {
-            this.Speed = 4;
+            Speed = 4;
             Rect = new Texture2D(graphics.GraphicsDevice, width, height);
             for (int i = 0; i < data.Length; ++i) data[i] = Color.Red;
             Rect.SetData(data);
-            this.Center = new Vector2(this.Pos.X + (this.Width / 2), this.Pos.Y + (this.Height / 2));
-            AngleConstant = (float) (45 * (Math.PI/180));
-            this.Angle = AngleConstant;
+            Center = new Vector2(Pos.X + (Width / 2), Pos.Y + (Height / 2));
+            AngleConstant = (float)(45 * (Math.PI / 180));
+            Angle = AngleConstant;
             ballDirectionX = 1;
             ballDirectionY = -1;
-    }
+        }
 
         public bool IsColide(Brick b)
         {
-            if (this.Pos.Y + this.Height <= b.Pos.Y ||
-                this.Pos.Y >= b.Pos.Y + b.Height ||
-                this.Pos.X + this.Width <= b.Pos.X ||
-                this.Pos.X >= b.Pos.X + b.Width)
+            if (Pos.Y + Height <= b.Pos.Y ||
+                Pos.Y >= b.Pos.Y + b.Height ||
+                Pos.X + Width <= b.Pos.X ||
+                Pos.X >= b.Pos.X + b.Width)
             {
-                
+
 
                 return false;
             }
@@ -46,64 +46,64 @@ namespace CaseBreaker
 
         public void Rebond(Brick b)
         {
-            if (Util.IsColide((int)this.Pos.X, (int)this.Pos.Y, this.Width, this.Height,
+            if (Util.IsColide((int)Pos.X, (int)Pos.Y, Width, Height,
                 (int)b.Pos.X, (int)b.Pos.Y, b.Width, b.Height) == true)
-            //if (this.IsColide(b) == true)
-            //if(Util.IsColide(this.Box, b.Box) == true)
+            //if (IsColide(b) == true)
+            //if(Util.IsColide(Box, b.Box) == true)
             {
 
-                if ((b.Pos.X < this.Center.X && this.Center.X < b.Pos.X + b.Width) || 
-                    (b.Pos.X < this.Pos.X && this.Pos.X < b.Pos.X + b.Width)||
-                    (b.Pos.X < this.Pos.X + this.Width && this.Pos.X + this.Width < b.Pos.X + b.Width))
-                //if (b.Pos.X < this.Center.X && this.Center.X < b.Pos.X + b.Width)
+                if ((b.Pos.X < Center.X && Center.X < b.Pos.X + b.Width) ||
+                    (b.Pos.X < Pos.X && Pos.X < b.Pos.X + b.Width) ||
+                    (b.Pos.X < Pos.X + Width && Pos.X + Width < b.Pos.X + b.Width))
+                //if (b.Pos.X < Center.X && Center.X < b.Pos.X + b.Width)
                 { //TOP OR BOT
-                    this.ballDirectionY *= -1;
-                    if (this.Pos.Y <= b.Pos.Y) //TOP
+                    ballDirectionY *= -1;
+                    if (Pos.Y <= b.Pos.Y) //TOP
                     {
-                        this.Pos.Y = b.Pos.Y - this.Height;
+                        Pos = new Vector2(Pos.X,b.Pos.Y - Height);
                         if (b.GetType() == typeof(Racket))
                         {
                             float midRacket = (b.Width / 2);
-                            if (this.ballDirectionX == -1)
+                            if (ballDirectionX == -1)
                             {
-                                float marge = this.Center.X - Math.Abs(b.Pos.X);
-                                this.Angle = AngleConstant * (marge / midRacket);
+                                float marge = Center.X - Math.Abs(b.Pos.X);
+                                Angle = AngleConstant * (marge / midRacket);
                             }
-                            else if (this.ballDirectionX == 1)
+                            else if (ballDirectionX == 1)
                             {
-                                
-                                float marge = Math.Abs((b.Pos.X + b.Width)) - this.Center.X;
-                                this.Angle = AngleConstant * (marge / midRacket);
+
+                                float marge = Math.Abs((b.Pos.X + b.Width)) - Center.X;
+                                Angle = AngleConstant * (marge / midRacket);
                             }
-                            this.Speed += 0.05f;
+                            Speed += 0.05f;
                         }
                     }
-                    else if (this.Pos.Y + this.Height >= b.Pos.Y + b.Height) //BOT
+                    else if (Pos.Y + Height >= b.Pos.Y + b.Height) //BOT
                     {
-                        this.Pos.Y = b.Pos.Y + b.Height;
+                        Pos = new Vector2(Pos.X, b.Pos.Y + b.Height);
                     }
                 }
-                else if ((b.Pos.Y < this.Center.Y && this.Center.Y < b.Pos.Y + b.Height) ||
-                    (b.Pos.Y < this.Pos.Y && this.Pos.Y < b.Pos.Y + b.Height) ||
-                    (b.Pos.Y < this.Pos.Y + this.Height && this.Pos.Y + this.Height < b.Pos.Y + b.Height))
-                //else if (b.Pos.Y < this.Center.Y && this.Center.Y < b.Pos.Y + b.Height)
+                else if ((b.Pos.Y < Center.Y && Center.Y < b.Pos.Y + b.Height) ||
+                    (b.Pos.Y < Pos.Y && Pos.Y < b.Pos.Y + b.Height) ||
+                    (b.Pos.Y < Pos.Y + Height && Pos.Y + Height < b.Pos.Y + b.Height))
+                //else if (b.Pos.Y < Center.Y && Center.Y < b.Pos.Y + b.Height)
                 {   //RIGHT OR LEFT
-                    this.ballDirectionX *= -1;
-                    if (this.Pos.X <= b.Pos.X)
+                    ballDirectionX *= -1;
+                    if (Pos.X <= b.Pos.X)
                     {
-                        this.Pos.X = b.Pos.X - this.Width;
+                        Pos = new Vector2(b.Pos.X - Width, Pos.Y);
                     }
-                    else if (this.Pos.X + this.Height >= b.Pos.X + b.Height)
+                    else if (Pos.X + Height >= b.Pos.X + b.Height)
                     {
-                        this.Pos.X = b.Pos.X + b.Width;
+                        Pos = new Vector2(b.Pos.X + b.Width, Pos.Y);
                     }
                 }
 
                 if (b.GetType() != typeof(Racket))
                     b.Power += -1;
             }
-            
-                      
+
+
         }
     }
 }

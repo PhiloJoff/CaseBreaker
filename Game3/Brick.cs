@@ -8,47 +8,57 @@ using System.Threading.Tasks;
 
 namespace CaseBreaker
 {
-    public class Brick
+    class Brick : Sprite
     {
         public int Width { get; protected set; }
         public int Height { get; protected set; }
-        public Vector2 Pos;// { get; set; }
         public int Power { get; set; }
         public Texture2D Rect{  get; protected set; }
 
         public Rectangle Box { get; set; }
         protected Color[] data;
-        public Brick(Vector2 pos, int power, GraphicsDeviceManager graphics)
-        {
-            this.Width = 39;
-            this.Height = 20;
-            this.Pos = pos;
-            this.Power = power;
-            this.Box = new Rectangle((int)this.Pos.X, (int)this.Pos.Y, this.Width, this.Height);
 
-            data = new Color[Width * Height];
-            Rect = new Texture2D(graphics.GraphicsDevice, this.Width, this.Height);
-            this.SetColor(this, graphics);
+        public Brick(Texture2D texture, Vector2 pos) : base(texture, pos)
+        {
+            Texture = texture;
+            Pos = pos;
         }
 
         public Brick(int width, int height, Vector2 pos, int power, GraphicsDeviceManager graphics)
         {
-            this.Width = width;
-            this.Height = height;
-            this.Pos = pos;
-            this.Power = power;
-            this.Box = new Rectangle((int)this.Pos.X, (int)this.Pos.Y, this.Width, this.Height);
+            Width = width;
+            Height = height;
+            Pos = pos;
+            if (power > 5 || power <= 0)
+                Power = 1;
+            else
+                Power = power;
+            Box = new Rectangle((int)Pos.X, (int)Pos.Y, Width, Height);
 
             data = new Color[width * height];
-            Rect = new Texture2D(graphics.GraphicsDevice, this.Width, this.Height);
-            this.SetColor(this, graphics);
+            Texture = new Texture2D(graphics.GraphicsDevice, Width, Height);
+            SetColor(this, graphics);
         }
 
-        
+        public Brick(Texture2D texture, int width, int height, Vector2 pos, int power, GraphicsDeviceManager graphics)
+        {
+            Width = width;
+            Height = height;
+            Pos = pos;
+            if (power > 5 || power <= 0)
+                Power = 1;
+            else
+                Power = power;
+            Box = new Rectangle((int)Pos.X, (int)Pos.Y, Width, Height);
+
+            Texture = texture;
+        }
+
+
 
         public void SetColor(Brick b, GraphicsDeviceManager graphics)
         {
-            switch (this.Power)
+            switch (Power)
             {
                 case 1:
                     for (int i = 0; i < data.Length; ++i) data[i] = Color.Orange;
@@ -65,8 +75,13 @@ namespace CaseBreaker
 
             }
 
-            Rect.SetData(data);
+            Texture.SetData(data);
         }
-        
+
+        public Rectangle getTile()
+        {
+            return new Rectangle((Power-1) * Width, 0, Width, Height);               
+        }
+
     }
 }

@@ -12,26 +12,40 @@ namespace CaseBreaker
     class SceneGameplay : Scene
     {
         private List<Brick> mesBricks;
-        //Brick uneBrick;
-        int brickWidth = 39;
-        int brickHeight = 20;
-        int margeGameRect = 25;
-        int gameWidth = 525;
-        int gameHeight = 575;
-        Texture2D background;
-        string[] map =
-        {   "111111111111",
-            "111111111111",
-            "111111111111",
-            "111114411111",
-            "111333333111",
-            "122222222221",
-            "111111111111",
-            "111111111111",
-            "111111111111",
-            "000000000000",
-            "000000000000",
-            "000000000000"
+        private int BrickWidth { get; set; }
+        private int BrickHeight { get; set; }
+        public Rectangle GameZone { get; set; }
+        private Texture2D background;
+        private Texture2D tilesBrick;
+        //int[] mapInt = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+        //    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+        //    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+        //    {1,1,1,1,1,4,4,1,1,1,1,1,1,1,1,1,1},
+        //    {1,1,1,3,3,3,3,3,3,1,1,1,1,1,1,1,1},
+        //    {1,2,2,2,2,2,2,2,2,2,2,1,1,1,1,1,1},
+        //    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+        //    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+        //    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+        //    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        //    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        //    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
+        string[] map = {
+            "000000000000000",
+            "000000000000000",
+            "000000000000000",
+            "111111111111111",
+            "111111111111111",
+            "111111151111111",
+            "111114444411111",
+            "111333333333111",
+            "122222222222221",
+            "111111111111111",
+            "111111111111111",
+            "125522334422221",
+            "000000000000000",
+            "000000000000000",
+            "000000000000000",
+            "655555005555556"
         };
 
         Racket uneRacket;
@@ -46,6 +60,8 @@ namespace CaseBreaker
         KeyboardState keyboardState;
         KeyboardState oldKbState;
 
+        Brick uneBrick;
+
         public SceneGameplay(MainGame mainGame) : base(mainGame)
         {
         }
@@ -53,20 +69,27 @@ namespace CaseBreaker
         public override void Load()
         {
             mainGame.IsMouseVisible = false;
+            isRunning = false;
+
+            GameZone = new Rectangle(25, 25, 495, 555);
+            background = mainGame.Content.Load<Texture2D>("Bgd");
+
             racketWidth = 100;
             racketHeight = 15;
-            
+            uneRacket = new Racket(racketWidth, racketHeight, new Vector2(((GameZone.Right) / 2) - (racketWidth / 2), 550), 1, Graphic);
 
-            ballSize = 15;
+            ballSize = 12;
+            uneBall = new Ball(ballSize, ballSize, new Vector2(((GameZone.Right) / 2) - (ballSize / 2), uneRacket.Pos.Y - ballSize), 1, Graphic);
+
             mesBricks = new List<Brick>();
+            tilesBrick = mainGame.Content.Load<Texture2D>("bricks");
+            BrickWidth = 33;
+            BrickHeight = 17;
             mesBricks = GenerateMap(map);
 
+            uneBrick = new Brick(tilesBrick, BrickWidth, BrickHeight, new Vector2(GameZone.X + 100, GameZone.Y + 200), 5, Graphic);
 
-            isRunning = false;
-            background = mainGame.Content.Load<Texture2D>("Bgd");
             oldKbState = Keyboard.GetState();
-            uneRacket = new Racket(racketWidth, racketHeight, new Vector2((gameWidth / 2) - (racketWidth / 2),  550), 1, Graphic);
-            uneBall = new Ball(ballSize, ballSize, new Vector2((gameWidth / 2) - (ballSize / 2), uneRacket.Pos.Y - ballSize), 1, Graphic);
             base.Load();
         }
 
@@ -98,53 +121,52 @@ namespace CaseBreaker
                 uneRacket.Box = new Rectangle((int)uneRacket.Pos.X, (int)uneRacket.Pos.Y, uneRacket.Width, uneRacket.Height);
                 if (keyboardState.IsKeyDown(Keys.Left))
                 {
-                    if (uneRacket.Pos.X <= margeGameRect)
+                    if (uneRacket.Pos.X <= GameZone.X)
                     {
-                        uneRacket.Pos.X = margeGameRect;
+                        uneRacket.Pos = new Vector2(GameZone.X, uneRacket.Pos.Y);
                     }
                     else
                     {
-                        uneRacket.Pos.X = uneRacket.Pos.X - uneRacket.Speed;
+                        uneRacket.Pos = new Vector2(uneRacket.Pos.X - uneRacket.Speed, uneRacket.Pos.Y);
                     }
                 }
 
                 if (keyboardState.IsKeyDown(Keys.Right))
                 {
-                    if (uneRacket.Pos.X >= gameWidth - racketWidth - 1)
+                    if (uneRacket.Pos.X >= GameZone.Right - racketWidth)
                     {
-                        uneRacket.Pos.X = gameWidth - racketWidth - 1;
+                        uneRacket.Pos = new Vector2(GameZone.Right - racketWidth, uneRacket.Pos.Y);
                     }
                     else
                     {
-                        uneRacket.Pos.X = uneRacket.Pos.X + uneRacket.Speed;
+                        uneRacket.Pos = new Vector2(uneRacket.Pos.X + uneRacket.Speed, uneRacket.Pos.Y);
                     }
                 }
 
-                if (uneBall.Pos.X > gameWidth - ballSize)
+                if (uneBall.Pos.X > GameZone.Right - ballSize)
                 {
-                    uneBall.Pos.X = gameWidth - ballSize;
+                    uneBall.Pos = new Vector2(GameZone.Right - ballSize,uneBall.Pos.Y);
                     uneBall.ballDirectionX = -1;
                 }
 
-                if (uneBall.Pos.X < margeGameRect)
+                if (uneBall.Pos.X < GameZone.X)
                 {
-                    uneBall.Pos.X = margeGameRect;
+                    uneBall.Pos = new Vector2(GameZone.X, uneBall.Pos.Y);
                     uneBall.ballDirectionX = 1;
                 }
 
-                if (uneBall.Pos.Y >= gameHeight - ballSize)
+                if (uneBall.Pos.Y >= GameZone.Bottom - ballSize)
                 {
                     mainGame.gameState.SwitchScene(GameState.SceneType.Gameplay);
                 }
 
-                if (uneBall.Pos.Y < margeGameRect)
+                if (uneBall.Pos.Y < GameZone.Y)
                 {
-                    uneBall.Pos.Y = margeGameRect;
+                    uneBall.Pos = new Vector2(uneBall.Pos.X, GameZone.Y);
                     uneBall.ballDirectionY = 1;
                 }
-
-                uneBall.Pos.X += uneBall.Speed * uneBall.ballDirectionX * (float)Math.Abs(Math.Cos(uneBall.Angle));
-                uneBall.Pos.Y += uneBall.Speed * uneBall.ballDirectionY * (float)Math.Abs(Math.Sin(uneBall.AngleConstant));
+                uneBall.Pos = new Vector2(uneBall.Pos.X + uneBall.Speed * uneBall.ballDirectionX * (float)Math.Abs(Math.Cos(uneBall.Angle)),
+                uneBall.Pos.Y + uneBall.Speed * uneBall.ballDirectionY * (float)Math.Abs(Math.Sin(uneBall.AngleConstant)));
                 uneBall.Center.X = Math.Abs(uneBall.Pos.X + (uneBall.Width / 2));
                 uneBall.Center.Y = Math.Abs(uneBall.Pos.Y + (uneBall.Height / 2));
 
@@ -155,7 +177,7 @@ namespace CaseBreaker
                     if (mesBricks[i].Power != 0)
                     {
                         uneBall.Rebond(mesBricks[i]);
-                        mesBricks[i].SetColor(mesBricks[i], Graphic);
+                        //mesBricks[i].SetColor(mesBricks[i], Graphic);
                     }
                     else
                     {
@@ -182,11 +204,13 @@ namespace CaseBreaker
             {
                 if (b.Power >= 1)
                 {
-                    spriteBatch.Draw(b.Rect, b.Pos, Color.White);
+                    //b.Draw(spriteBatch);
+                    spriteBatch.Draw(b.Texture, b.Pos, b.getTile(), Color.White);
                 }
 
             }
             spriteBatch.Draw(uneRacket.Rect, uneRacket.Pos, Color.White);
+            //spriteBatch.Draw(uneBrick.Texture, uneBrick.Pos, uneBrick.getTile(), Color.White);
 
             if (uneBall.Power >= 1)
                 spriteBatch.Draw(uneBall.Rect, uneBall.Pos, Color.White);
@@ -198,31 +222,30 @@ namespace CaseBreaker
         private List<Brick> GenerateMap(string[] theMap)
         {
             List<Brick> theBrick = new List<Brick>();
-            float X = 27f;
-            float Y = 25f;
-            string mapConsole = "\n";
+            float X = 25;
+            float Y = 25;
+            //string mapConsole = "\n";
             int toNumber;
             bool isNumber;
-
             for (int i = 0; i < theMap.Length; i++)
             {
-                Y += 2f;
-                X += 2f;
+                Y += 0f;
+                X += 0f;
                 foreach (char c in theMap[i])
                 {
-                    mapConsole += c;
+                    //mapConsole += c;
                     isNumber = Int32.TryParse(c.ToString(), out toNumber);
                     if (isNumber == true)
                     {
-                        if (c != 0)
-                            theBrick.Add(new Brick(new Vector2(X, Y), toNumber, Graphic));
+                        if (toNumber > 0)
+                            theBrick.Add(new Brick(tilesBrick, BrickWidth, BrickHeight, new Vector2(X, Y), toNumber, Graphic));
                     }
-                    X += 2f + brickWidth;
+                    X += 0f + BrickWidth;
 
                 }
-                Y += brickHeight;
-                X = 27f;
-                mapConsole += "\n";
+                Y += BrickHeight;
+                X = 25f;
+                //mapConsole += "\n";
             }
 
             //Console.WriteLine(mapConsole);

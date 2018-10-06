@@ -16,7 +16,7 @@ namespace CaseBreaker
         {
             this.Speed = 5;
             Rect = new Texture2D(graphics.GraphicsDevice, width, height);
-            for (int i = 0; i < data.Length; ++i) data[i] = Color.Blue;
+            for (int i = 0; i < data.Length; ++i) data[i] = Color.Green;
             Rect.SetData(data);
         }
     }
