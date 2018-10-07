@@ -17,6 +17,8 @@ namespace CaseBreaker
         public Rectangle GameZone { get; set; }
         private Texture2D background;
         private Texture2D tilesBrick;
+        private Texture2D textureBall;
+
         //int[] mapInt = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
         //    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
         //    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
@@ -29,23 +31,42 @@ namespace CaseBreaker
         //    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
         //    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
         //    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
+        //string[] map = {
+        //    "000000000000000",
+        //    "000000000000000",
+        //    "000000000000000",
+        //    "111111111111111",
+        //    "111111111111111",
+        //    "111111151111111",
+        //    "111114444411111",
+        //    "111333333333111",
+        //    "122222222222221",
+        //    "111111111111111",
+        //    "111111111111111",
+        //    "125522334422221",
+        //    "000000000000000",
+        //    "000000000000000",
+        //    "000000000000000",
+        //    "055555005555550"
+        //};
+
         string[] map = {
-            "000000000000000",
-            "000000000000000",
-            "000000000000000",
-            "111111111111111",
-            "111111111111111",
-            "111111151111111",
-            "111114444411111",
-            "111333333333111",
-            "122222222222221",
-            "111111111111111",
-            "111111111111111",
-            "125522334422221",
-            "000000000000000",
-            "000000000000000",
-            "000000000000000",
-            "655555005555556"
+            "000000040000000",
+            "000000414000000",
+            "000000414000000",
+            "000004111400000",
+            "000004111400000",
+            "444441111144444",
+            "041111414111140",
+            "004111414111400",
+            "000411111114000",
+            "004111111111400",
+            "004111111111400",
+            "042111141111240",
+            "042224404422240",
+            "422440000044224",
+            "444000000000444",
+            "055555005555550"
         };
 
         Racket uneRacket;
@@ -72,14 +93,16 @@ namespace CaseBreaker
             isRunning = false;
 
             GameZone = new Rectangle(25, 25, 495, 555);
-            background = mainGame.Content.Load<Texture2D>("Bgd");
+            background = mainGame.Content.Load<Texture2D>("backgroundGame");
 
             racketWidth = 100;
             racketHeight = 15;
             uneRacket = new Racket(racketWidth, racketHeight, new Vector2(((GameZone.Right) / 2) - (racketWidth / 2), 550), 1, Graphic);
 
+            textureBall = mainGame.Content.Load<Texture2D>("ball");
             ballSize = 12;
-            uneBall = new Ball(ballSize, ballSize, new Vector2(((GameZone.Right) / 2) - (ballSize / 2), uneRacket.Pos.Y - ballSize), 1, Graphic);
+            //uneBall = new Ball(ballSize, ballSize, new Vector2(((GameZone.Right) / 2) - (ballSize / 2), uneRacket.Pos.Y - ballSize), 1, Graphic);
+            uneBall = new Ball(textureBall, new Vector2(((GameZone.Right) / 2) - (ballSize / 2), uneRacket.Pos.Y - ballSize),ballSize, ballSize);
 
             mesBricks = new List<Brick>();
             tilesBrick = mainGame.Content.Load<Texture2D>("bricks");
@@ -87,7 +110,7 @@ namespace CaseBreaker
             BrickHeight = 17;
             mesBricks = GenerateMap(map);
 
-            uneBrick = new Brick(tilesBrick, BrickWidth, BrickHeight, new Vector2(GameZone.X + 100, GameZone.Y + 200), 5, Graphic);
+            uneBrick = new Brick(tilesBrick, BrickWidth, BrickHeight, new Vector2(GameZone.X + 100, GameZone.Y + 200), 5);
 
             oldKbState = Keyboard.GetState();
             base.Load();
@@ -205,16 +228,17 @@ namespace CaseBreaker
                 if (b.Power >= 1)
                 {
                     //b.Draw(spriteBatch);
-                    spriteBatch.Draw(b.Texture, b.Pos, b.getTile(), Color.White);
+                    spriteBatch.Draw(b.Texture, b.Pos, b.GetTile(), Color.White);
                 }
 
             }
             spriteBatch.Draw(uneRacket.Rect, uneRacket.Pos, Color.White);
-            //spriteBatch.Draw(uneBrick.Texture, uneBrick.Pos, uneBrick.getTile(), Color.White);
 
             if (uneBall.Power >= 1)
-                spriteBatch.Draw(uneBall.Rect, uneBall.Pos, Color.White);
-            base.Draw(gameTime);
+                //spriteBatch.Draw(uneBall.Rect, uneBall.Pos, Color.White);
+                //spriteBatch.Draw(uneBall.Texture, uneBall.Pos, null, Color.White, 0, Vector2.Zero, new Vector2(0.1f, 0.1f), 0, 0);
+                spriteBatch.Draw(uneBall.Texture, uneBall.Pos, Color.White);
+                base.Draw(gameTime);
         }
 
 
@@ -238,7 +262,7 @@ namespace CaseBreaker
                     if (isNumber == true)
                     {
                         if (toNumber > 0)
-                            theBrick.Add(new Brick(tilesBrick, BrickWidth, BrickHeight, new Vector2(X, Y), toNumber, Graphic));
+                            theBrick.Add(new Brick(tilesBrick, BrickWidth, BrickHeight, new Vector2(X, Y), toNumber));
                     }
                     X += 0f + BrickWidth;
 

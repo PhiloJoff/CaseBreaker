@@ -40,7 +40,7 @@ namespace CaseBreaker
             SetColor(this, graphics);
         }
 
-        public Brick(Texture2D texture, int width, int height, Vector2 pos, int power, GraphicsDeviceManager graphics)
+        public Brick(Texture2D texture, int width, int height, Vector2 pos, int power)
         {
             Width = width;
             Height = height;
@@ -78,7 +78,7 @@ namespace CaseBreaker
             Texture.SetData(data);
         }
 
-        public Rectangle getTile()
+        public Rectangle GetTile()
         {
             return new Rectangle((Power-1) * Width, 0, Width, Height);               
         }

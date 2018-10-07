@@ -30,6 +30,21 @@ namespace CaseBreaker
             ballDirectionY = -1;
         }
 
+        public Ball(Texture2D texture, Vector2 pos, int width, int height) : base(texture, pos)
+        {
+            Speed = 4;
+            Texture = texture;
+            Pos = pos;
+            Width = width;
+            Height = height;
+            Power = 1;
+            Center = new Vector2(Pos.X + (Width / 2), Pos.Y + (Height / 2));
+            AngleConstant = (float)(45 * (Math.PI / 180));
+            Angle = AngleConstant;
+            ballDirectionX = 1;
+            ballDirectionY = -1;
+        }
+
         public bool IsColide(Brick b)
         {
             if (Pos.Y + Height <= b.Pos.Y ||
@@ -60,6 +75,7 @@ namespace CaseBreaker
                     ballDirectionY *= -1;
                     if (Pos.Y <= b.Pos.Y) //TOP
                     {
+                        Console.WriteLine("collision haut");
                         Pos = new Vector2(Pos.X,b.Pos.Y - Height);
                         if (b.GetType() == typeof(Racket))
                         {
@@ -80,6 +96,7 @@ namespace CaseBreaker
                     }
                     else if (Pos.Y + Height >= b.Pos.Y + b.Height) //BOT
                     {
+                        Console.WriteLine("collision bas");
                         Pos = new Vector2(Pos.X, b.Pos.Y + b.Height);
                     }
                 }
@@ -91,10 +108,12 @@ namespace CaseBreaker
                     ballDirectionX *= -1;
                     if (Pos.X <= b.Pos.X)
                     {
+                        Console.WriteLine("collision left");
                         Pos = new Vector2(b.Pos.X - Width, Pos.Y);
                     }
                     else if (Pos.X + Height >= b.Pos.X + b.Height)
                     {
+                        Console.WriteLine("collision left");
                         Pos = new Vector2(b.Pos.X + b.Width, Pos.Y);
                     }
                 }
