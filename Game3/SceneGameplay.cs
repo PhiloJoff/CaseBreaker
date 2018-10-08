@@ -66,7 +66,7 @@ namespace CaseBreaker
             "042224404422240",
             "422440000044224",
             "444000000000444",
-            "055555005555550"
+            "055555000555550"
         };
 
         Racket uneRacket;
@@ -132,7 +132,7 @@ namespace CaseBreaker
 
             if (keyboardState.IsKeyDown(Keys.Space) && oldKbState.IsKeyDown(Keys.Space) != true)
             {
-                oldKbState = Keyboard.GetState();
+                //oldKbState = Keyboard.GetState();
                 if (isRunning != true)
                     isRunning = true;
             }
@@ -199,7 +199,12 @@ namespace CaseBreaker
                 {
                     if (mesBricks[i].Power != 0)
                     {
-                        uneBall.Rebond(mesBricks[i]);
+                        if (Util.IsColide((int)uneBall.Pos.X, (int)uneBall.Pos.Y, uneBall.Width, uneBall.Height,
+                (int)mesBricks[i].Pos.X, (int)mesBricks[i].Pos.Y, mesBricks[i].Width, mesBricks[i].Height) == true)
+                        {
+                            uneBall.Rebond(mesBricks[i]);
+                            isRunning = false;
+                        }
                         //mesBricks[i].SetColor(mesBricks[i], Graphic);
                     }
                     else

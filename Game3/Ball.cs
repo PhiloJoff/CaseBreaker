@@ -17,6 +17,8 @@ namespace CaseBreaker
         public int ballDirectionY;
         public float AngleConstant { get; private set; }
 
+        private float RadiusPow2 { get; set; }
+
         public Ball(int width, int height, Vector2 pos, int power, GraphicsDeviceManager graphics) : base(width, height, pos, power, graphics)
         {
             Speed = 4;
@@ -28,6 +30,7 @@ namespace CaseBreaker
             Angle = AngleConstant;
             ballDirectionX = 1;
             ballDirectionY = -1;
+            RadiusPow2 = width * width;
         }
 
         public Ball(Texture2D texture, Vector2 pos, int width, int height) : base(texture, pos)
@@ -43,6 +46,7 @@ namespace CaseBreaker
             Angle = AngleConstant;
             ballDirectionX = 1;
             ballDirectionY = -1;
+            RadiusPow2 = width * width;
         }
 
         public bool IsColide(Brick b)
@@ -57,7 +61,83 @@ namespace CaseBreaker
                 return false;
             }
             return true;
+
+            //float distX = Math.Abs(Center.X - (b.Pos.X + (b.Width/2)));
+            //float distY = Math.Abs(Center.Y - (b.Pos.Y + (b.Height/2)));
+
+            //if (distX > ((b.Width / 2) + (Width / 2))) return false;
+            //if (distY > ((b.Height / 2) + (Height / 2))) return false;
+            //if (distX <= (b.Width / 2)) return true;
+            //if (distY <= (b.Height / 2)) return true;
+
+            //float dx = distX;
         }
+
+        //public void Rebond(Brick b)
+        //{
+        //    if (Util.IsColide((int)Pos.X, (int)Pos.Y, Width, Height,
+        //        (int)b.Pos.X, (int)b.Pos.Y, b.Width, b.Height) == true)
+        //    //if (IsColide(b) == true)
+        //    //if(Util.IsColide(Box, b.Box) == true)
+        //    {
+
+        //        if ((b.Pos.X < Center.X && Center.X < b.Pos.X + b.Width) ||
+        //            (b.Pos.X < Pos.X && Pos.X < b.Pos.X + b.Width) ||
+        //            (b.Pos.X < Pos.X + Width && Pos.X + Width < b.Pos.X + b.Width))
+        //        //if (b.Pos.X < Center.X && Center.X < b.Pos.X + b.Width)
+        //        { //TOP OR BOT
+        //            ballDirectionY *= -1;
+        //            if (Pos.Y <= b.Pos.Y) //TOP
+        //            {
+        //                Console.WriteLine("collision haut");
+        //                Pos = new Vector2(Pos.X,b.Pos.Y - Height);
+        //                if (b.GetType() == typeof(Racket))
+        //                {
+        //                    float midRacket = (b.Width / 2);
+        //                    if (ballDirectionX == -1)
+        //                    {
+        //                        float marge = Center.X - Math.Abs(b.Pos.X);
+        //                        Angle = AngleConstant * (marge / midRacket);
+        //                    }
+        //                    else if (ballDirectionX == 1)
+        //                    {
+
+        //                        float marge = Math.Abs((b.Pos.X + b.Width)) - Center.X;
+        //                        Angle = AngleConstant * (marge / midRacket);
+        //                    }
+        //                    Speed += 0.05f;
+        //                }
+        //            }
+        //            else if (Pos.Y + Height >= b.Pos.Y + b.Height) //BOT
+        //            {
+        //                Console.WriteLine("collision bas");
+        //                Pos = new Vector2(Pos.X, b.Pos.Y + b.Height);
+        //            }
+        //        }
+        //        else if ((b.Pos.Y < Center.Y && Center.Y < b.Pos.Y + b.Height) ||
+        //            (b.Pos.Y < Pos.Y && Pos.Y < b.Pos.Y + b.Height) ||
+        //            (b.Pos.Y < Pos.Y + Height && Pos.Y + Height < b.Pos.Y + b.Height))
+        //        //else if (b.Pos.Y < Center.Y && Center.Y < b.Pos.Y + b.Height)
+        //        {   //RIGHT OR LEFT
+        //            ballDirectionX *= -1;
+        //            if (Pos.X <= b.Pos.X)
+        //            {
+        //                Console.WriteLine("collision left");
+        //                Pos = new Vector2(b.Pos.X - Width, Pos.Y);
+        //            }
+        //            else if (Pos.X + Height >= b.Pos.X + b.Height)
+        //            {
+        //                Console.WriteLine("collision left");
+        //                Pos = new Vector2(b.Pos.X + b.Width, Pos.Y);
+        //            }
+        //        }
+
+        //        if (b.GetType() != typeof(Racket))
+        //            b.Power += -1;
+        //    }
+
+
+        //}
 
         public void Rebond(Brick b)
         {
@@ -66,63 +146,122 @@ namespace CaseBreaker
             //if (IsColide(b) == true)
             //if(Util.IsColide(Box, b.Box) == true)
             {
+                //Console.WriteLine($"X : {b.Pos.X} < {Center.X} < {b.Pos.X + b.Width}");
+                //Console.WriteLine($"Y : {b.Pos.Y} < {Center.Y} < {b.Pos.Y + b.Height}");
+                //if ((b.Pos.Y < Center.Y && Center.Y < b.Pos.Y + b.Height))
+                ////else if (b.Pos.Y < Center.Y && Center.Y < b.Pos.Y + b.Height)
+                //{   //RIGHT OR LEFT
+                //    ballDirectionX *= -1;
+                //    if (Center.X <= b.Pos.X)
+                //    {
+                //        Console.WriteLine($"{Center.X} <= {b.Pos.X}");
+                //        Console.WriteLine("collision left");
+                //        Pos = new Vector2(b.Pos.X - Width, Pos.Y);
+                //    }
+                //    else if (Center.X >= b.Pos.X + b.Height)
+                //    {
+                //        Console.WriteLine($"{Center.X} >= {b.Pos.X + b.Height}");
+                //        Console.WriteLine("collision left");
+                //        Pos = new Vector2(b.Pos.X + b.Width, Pos.Y);
+                //    }
+                //    if (b.GetType() != typeof(Racket))
+                //        b.Power += -1;
+                //}
 
-                if ((b.Pos.X < Center.X && Center.X < b.Pos.X + b.Width) ||
-                    (b.Pos.X < Pos.X && Pos.X < b.Pos.X + b.Width) ||
-                    (b.Pos.X < Pos.X + Width && Pos.X + Width < b.Pos.X + b.Width))
-                //if (b.Pos.X < Center.X && Center.X < b.Pos.X + b.Width)
-                { //TOP OR BOT
+                //else if ((b.Pos.X < Center.X && Center.X < b.Pos.X + b.Width))
+                ////if (b.Pos.X < Center.X && Center.X < b.Pos.X + b.Width)
+                //{ //TOP OR BOT
+                //    ballDirectionY *= -1;
+                //    if (Center.Y <= b.Pos.Y) //TOP
+                //    {
+                //        Console.WriteLine($"{Center.Y} <= {b.Pos.Y}");
+                //        Console.WriteLine("collision haut");
+                //        Pos = new Vector2(Pos.X, b.Pos.Y - Height);
+                //        if (b.GetType() == typeof(Racket))
+                //        {
+                //            float midRacket = (b.Width / 2);
+                //            if (ballDirectionX == -1)
+                //            {
+                //                float marge = Center.X - Math.Abs(b.Pos.X);
+                //                Angle = AngleConstant * (marge / midRacket);
+                //            }
+                //            else if (ballDirectionX == 1)
+                //            {
+
+                //                float marge = Math.Abs((b.Pos.X + b.Width)) - Center.X;
+                //                Angle = AngleConstant * (marge / midRacket);
+                //            }
+                //            Speed += 0.05f;
+                //        }
+                //    }
+                //    else if (Center.Y >= b.Pos.Y + b.Height) //BOT
+                //    {
+                //        Console.WriteLine($"{Center.Y} >= {b.Pos.Y + b.Height}");
+                //        Console.WriteLine("collision bas");
+                //        Pos = new Vector2(Pos.X, b.Pos.Y + b.Height);
+                //    }
+                //    if (b.GetType() != typeof(Racket))
+                //        b.Power += -1;
+                //}
+
+                if (((Math.Pow(Center.X - b.Pos.X, 2) + Math.Pow(Center.Y - b.Pos.Y, 2)) <= RadiusPow2) || //LeftTOP
+                   ((Math.Pow(Center.X - (b.Pos.X + Width), 2) + Math.Pow(Center.Y - b.Pos.Y, 2)) <= RadiusPow2) || //RightTOP
+                   ((Math.Pow(Center.X - b.Pos.X, 2) + Math.Pow(Center.Y - (b.Pos.Y + Height), 2)) <= RadiusPow2) || //LeftBOT
+                   ((Math.Pow(Center.X - (b.Pos.X + Width), 2) + Math.Pow(Center.Y - (b.Pos.Y + Height), 2)) <= RadiusPow2)) //RightBOT
+                {
+                    ballDirectionX *= -1;
                     ballDirectionY *= -1;
-                    if (Pos.Y <= b.Pos.Y) //TOP
+                }
+                else
+                {
+                    for (float i = (b.Pos.X + 1); i < (b.Pos.X + b.Width); i++)
                     {
-                        Console.WriteLine("collision haut");
-                        Pos = new Vector2(Pos.X,b.Pos.Y - Height);
-                        if (b.GetType() == typeof(Racket))
+                        Console.WriteLine("Distance X :" + ((Math.Pow(Center.X - i, 2) + Math.Pow(Center.Y - b.Pos.Y, 2))));
+                        if (((Math.Pow(Center.X - i, 2) + Math.Pow(Center.Y - b.Pos.Y, 2)) <= RadiusPow2))
                         {
-                            float midRacket = (b.Width / 2);
-                            if (ballDirectionX == -1)
-                            {
-                                float marge = Center.X - Math.Abs(b.Pos.X);
-                                Angle = AngleConstant * (marge / midRacket);
-                            }
-                            else if (ballDirectionX == 1)
-                            {
-
-                                float marge = Math.Abs((b.Pos.X + b.Width)) - Center.X;
-                                Angle = AngleConstant * (marge / midRacket);
-                            }
-                            Speed += 0.05f;
+                            Console.WriteLine(RadiusPow2);
+                            Console.WriteLine("TOP");
+                            ballDirectionY *= -1;
+                            Pos = new Vector2(i, Pos.Y);
+                            break;
+                        }
+                        else if (((Math.Pow(Center.X - i, 2) + Math.Pow(Center.Y - (b.Pos.Y + Height), 2)) <= RadiusPow2))
+                        {
+                            Console.WriteLine(RadiusPow2);
+                            Console.WriteLine("BOT");
+                            ballDirectionY *= -1;
+                            Pos = new Vector2(i, Pos.Y);
+                            break;
                         }
                     }
-                    else if (Pos.Y + Height >= b.Pos.Y + b.Height) //BOT
+                    Console.WriteLine("Boucle LEFT/RIGHT");
+                    for (float i = (b.Pos.Y + 1); i < (b.Pos.Y + b.Height); i++)
                     {
-                        Console.WriteLine("collision bas");
-                        Pos = new Vector2(Pos.X, b.Pos.Y + b.Height);
+                        Console.WriteLine("Distance Y : " + ((Math.Pow(Center.X - b.Pos.X, 2) + Math.Pow(Center.Y - i, 2))));
+                        if (((Math.Pow(Center.X - b.Pos.X, 2) + Math.Pow(Center.Y - i, 2)) <= RadiusPow2))
+                        {
+                            Console.WriteLine(RadiusPow2);
+                            Console.WriteLine("LEFT");
+                            ballDirectionX *= -1;
+                            Pos = new Vector2(Pos.X, i);
+                            break;
+                        }
+
+                        if (((Math.Pow(Center.X - (b.Pos.X + Width), 2) + Math.Pow(Center.Y - i, 2)) <= RadiusPow2))
+                        {
+                            Console.WriteLine(RadiusPow2);
+                            Console.WriteLine("RIGHT");
+                            ballDirectionX *= -1;
+                            Pos = new Vector2(Pos.X, i);
+                            break;
+                        }
                     }
-                }
-                else if ((b.Pos.Y < Center.Y && Center.Y < b.Pos.Y + b.Height) ||
-                    (b.Pos.Y < Pos.Y && Pos.Y < b.Pos.Y + b.Height) ||
-                    (b.Pos.Y < Pos.Y + Height && Pos.Y + Height < b.Pos.Y + b.Height))
-                //else if (b.Pos.Y < Center.Y && Center.Y < b.Pos.Y + b.Height)
-                {   //RIGHT OR LEFT
-                    ballDirectionX *= -1;
-                    if (Pos.X <= b.Pos.X)
-                    {
-                        Console.WriteLine("collision left");
-                        Pos = new Vector2(b.Pos.X - Width, Pos.Y);
-                    }
-                    else if (Pos.X + Height >= b.Pos.X + b.Height)
-                    {
-                        Console.WriteLine("collision left");
-                        Pos = new Vector2(b.Pos.X + b.Width, Pos.Y);
-                    }
+
+                    Console.WriteLine("------------------------\n");
                 }
 
-                if (b.GetType() != typeof(Racket))
-                    b.Power += -1;
             }
-
-
         }
     }
+
 }
