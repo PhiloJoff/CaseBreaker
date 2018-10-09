@@ -202,7 +202,12 @@ namespace CaseBreaker
                         if (Util.IsColide((int)uneBall.Pos.X, (int)uneBall.Pos.Y, uneBall.Width, uneBall.Height,
                 (int)mesBricks[i].Pos.X, (int)mesBricks[i].Pos.Y, mesBricks[i].Width, mesBricks[i].Height) == true)
                         {
-                            uneBall.Rebond(mesBricks[i]);
+                            isRunning = false;
+                            if (uneBall.Rebond(mesBricks[i]) == true)
+                            {
+                                mesBricks[i].Power -= 1;
+                                break;
+                            }
                             isRunning = false;
                         }
                         //mesBricks[i].SetColor(mesBricks[i], Graphic);
@@ -212,6 +217,26 @@ namespace CaseBreaker
                         mesBricks.Remove(mesBricks[i]);
                     }
                 }
+
+                //for (int i = mesBricks.Count - 1; i >= 0; i--)
+                //{
+                //    if (mesBricks[i].Power != 0)
+                //    {
+                //        if (Util.IsColide((int)uneBall.Pos.X, (int)uneBall.Pos.Y, uneBall.Width, uneBall.Height,
+                //(int)mesBricks[i].Pos.X, (int)mesBricks[i].Pos.Y, mesBricks[i].Width, mesBricks[i].Height) == true)
+                //        {
+                //            isRunning = false;
+                //            if (uneBall.Rebond(mesBricks[i]) == true)
+                //                mesBricks[i].Power -= 1;
+                //            isRunning = false;
+                //        }
+                //        //mesBricks[i].SetColor(mesBricks[i], Graphic);
+                //    }
+                //    else
+                //    {
+                //        mesBricks.Remove(mesBricks[i]);
+                //    }
+                //}
 
                 if (mesBricks.Count <= 0)
                 {

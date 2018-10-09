@@ -139,13 +139,14 @@ namespace CaseBreaker
 
         //}
 
-        public void Rebond(Brick b)
+        public bool Rebond(Brick b)
         {
             if (Util.IsColide((int)Pos.X, (int)Pos.Y, Width, Height,
                 (int)b.Pos.X, (int)b.Pos.Y, b.Width, b.Height) == true)
             //if (IsColide(b) == true)
             //if(Util.IsColide(Box, b.Box) == true)
             {
+                Console.WriteLine("------------------------------");
                 //Console.WriteLine($"X : {b.Pos.X} < {Center.X} < {b.Pos.X + b.Width}");
                 //Console.WriteLine($"Y : {b.Pos.Y} < {Center.Y} < {b.Pos.Y + b.Height}");
                 //if ((b.Pos.Y < Center.Y && Center.Y < b.Pos.Y + b.Height))
@@ -204,63 +205,90 @@ namespace CaseBreaker
                 //        b.Power += -1;
                 //}
 
-                if (((Math.Pow(Center.X - b.Pos.X, 2) + Math.Pow(Center.Y - b.Pos.Y, 2)) <= RadiusPow2) || //LeftTOP
-                   ((Math.Pow(Center.X - (b.Pos.X + Width), 2) + Math.Pow(Center.Y - b.Pos.Y, 2)) <= RadiusPow2) || //RightTOP
-                   ((Math.Pow(Center.X - b.Pos.X, 2) + Math.Pow(Center.Y - (b.Pos.Y + Height), 2)) <= RadiusPow2) || //LeftBOT
-                   ((Math.Pow(Center.X - (b.Pos.X + Width), 2) + Math.Pow(Center.Y - (b.Pos.Y + Height), 2)) <= RadiusPow2)) //RightBOT
+                if (((Math.Pow(Center.X - b.Pos.X, 2) + Math.Pow(Center.Y - b.Pos.Y, 2)) <= RadiusPow2) && //LeftTOP
+                   (b.GetType() == typeof(Racket)))
                 {
-                    ballDirectionX *= -1;
+                    if (ballDirectionX == 1)
+                        ballDirectionX = -1;
+                    ballDirectionY *= -1;
+                }
+                else if(((Math.Pow(Center.X - (b.Pos.X + b.Width), 2) + Math.Pow(Center.Y - b.Pos.Y, 2)) <= RadiusPow2) && //RightTOP
+                   (b.GetType() == typeof(Racket)))
+                {
+                    if (ballDirectionX == -1)
+                        ballDirectionX = 1;
                     ballDirectionY *= -1;
                 }
                 else
                 {
-                    for (float i = (b.Pos.X + 1); i < (b.Pos.X + b.Width); i++)
+                    if (b.Pos.Y <= Center.Y && Center.Y <= b.Pos.Y + b.Height &&
+                        (b.Pos.X > Center.X || Center.X > b.Pos.X + b.Width))
                     {
-                        Console.WriteLine("Distance X :" + ((Math.Pow(Center.X - i, 2) + Math.Pow(Center.Y - b.Pos.Y, 2))));
-                        if (((Math.Pow(Center.X - i, 2) + Math.Pow(Center.Y - b.Pos.Y, 2)) <= RadiusPow2))
+                        for (float i = (b.Pos.Y); i <= (b.Pos.Y + b.Height); i++)
                         {
-                            Console.WriteLine(RadiusPow2);
-                            Console.WriteLine("TOP");
-                            ballDirectionY *= -1;
-                            Pos = new Vector2(i, Pos.Y);
-                            break;
-                        }
-                        else if (((Math.Pow(Center.X - i, 2) + Math.Pow(Center.Y - (b.Pos.Y + Height), 2)) <= RadiusPow2))
-                        {
-                            Console.WriteLine(RadiusPow2);
-                            Console.WriteLine("BOT");
-                            ballDirectionY *= -1;
-                            Pos = new Vector2(i, Pos.Y);
-                            break;
+                            if (((Math.Pow(Center.X - b.Pos.X, 2) + Math.Pow(Center.Y - i, 2)) <= RadiusPow2))
+                            {
+                                Console.WriteLine("LEFT");
+                                Console.WriteLine("Y : " +i);
+                                ballDirectionX *= -1;
+                                Pos = new Vector2(b.Pos.X - Height, Pos.Y);
+                                return true;
+                            }
+
+                            if (((Math.Pow(Center.X - (b.Pos.X + b.Width), 2) + Math.Pow(Center.Y - i, 2)) <= RadiusPow2))
+                            {
+                                Console.WriteLine("RIGHT");
+                                Console.WriteLine("Y : " + i);
+                                ballDirectionX *= -1;
+                                Pos = new Vector2(b.Pos.X + b.Width, Pos.Y);
+                                return true;
+                            }
                         }
                     }
-                    Console.WriteLine("Boucle LEFT/RIGHT");
-                    for (float i = (b.Pos.Y + 1); i < (b.Pos.Y + b.Height); i++)
+                    
+                    else if (b.Pos.X <= Center.X && Center.X <= b.Pos.X + b.Width &&
+                        (b.Pos.Y > Center.Y || Center.Y > b.Pos.Y + b.Height))
                     {
-                        Console.WriteLine("Distance Y : " + ((Math.Pow(Center.X - b.Pos.X, 2) + Math.Pow(Center.Y - i, 2))));
-                        if (((Math.Pow(Center.X - b.Pos.X, 2) + Math.Pow(Center.Y - i, 2)) <= RadiusPow2))
+                        for (float i = (b.Pos.X); i <= (b.Pos.X + b.Width); i++)
                         {
-                            Console.WriteLine(RadiusPow2);
-                            Console.WriteLine("LEFT");
-                            ballDirectionX *= -1;
-                            Pos = new Vector2(Pos.X, i);
-                            break;
-                        }
-
-                        if (((Math.Pow(Center.X - (b.Pos.X + Width), 2) + Math.Pow(Center.Y - i, 2)) <= RadiusPow2))
-                        {
-                            Console.WriteLine(RadiusPow2);
-                            Console.WriteLine("RIGHT");
-                            ballDirectionX *= -1;
-                            Pos = new Vector2(Pos.X, i);
-                            break;
+                            if (((Math.Pow(Center.X - i, 2) + Math.Pow(Center.Y - b.Pos.Y, 2)) <= RadiusPow2))
+                            {
+                                Console.WriteLine("TOP");
+                                Console.WriteLine("X : "+ i);
+                                ballDirectionY *= -1;
+                                Pos = new Vector2(Pos.X, b.Pos.Y - Width);
+                                if (b.GetType() == typeof(Racket))
+                                {
+                                    float midRacket = (b.Width / 2);
+                                    if (ballDirectionX == -1)
+                                    {
+                                        float marge = Center.X - Math.Abs(b.Pos.X);
+                                        Angle = AngleConstant * (marge / midRacket);
+                                    }
+                                    else if (ballDirectionX == 1)
+                                    {
+                                        float marge = Math.Abs((b.Pos.X + b.Width)) - Center.X;
+                                        Angle = AngleConstant * (marge / midRacket);
+                                    }
+                                    Speed += 0.05f;
+                                }
+                                return true;
+                            }
+                            else if (((Math.Pow(Center.X - i, 2) + Math.Pow(Center.Y - (b.Pos.Y + Height), 2)) <= RadiusPow2))
+                            {
+                                Console.WriteLine("BOT");
+                                Console.WriteLine("X : " + i);
+                                ballDirectionY *= -1;
+                                Pos = new Vector2(Pos.X, b.Pos.Y + b.Height);
+                                return true;
+                            }
                         }
                     }
 
-                    Console.WriteLine("------------------------\n");
                 }
 
             }
+            return false;
         }
     }
 
