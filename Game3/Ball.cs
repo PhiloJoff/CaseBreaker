@@ -218,7 +218,16 @@ namespace CaseBreaker
                     if (ballDirectionX == -1)
                         ballDirectionX = 1;
                     ballDirectionY *= -1;
-                }
+                }                //else if (((Math.Pow(Center.X - b.Pos.X, 2) + Math.Pow(Center.Y - (b.Pos.Y + b.Height), 2)) <= RadiusPow2)) //LeftBOT
+                //{
+                //    ballDirectionX = -1;
+                //    ballDirectionY = 1;
+                //}
+                //else if (((Math.Pow(Center.X - (b.Pos.X + b.Width), 2) + Math.Pow(Center.Y - (b.Pos.Y + b.Height), 2)) <= RadiusPow2)) //RightBOT
+                //{
+                //    ballDirectionX = 1;
+                //    ballDirectionY = 1;
+                //}
                 else
                 {
                     if (b.Pos.Y <= Center.Y && Center.Y <= b.Pos.Y + b.Height &&
