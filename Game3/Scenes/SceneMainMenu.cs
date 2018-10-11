@@ -12,7 +12,9 @@ namespace CaseBreaker
     class SceneMainMenu : Scene
     {
         private Texture2D playButton;
-        private Vector2 buttonPosition;
+        private Texture2D editorButton;
+        private Vector2 playBtnPos;
+        private Vector2 editorBtnPos;
         private MouseState oldMouseState;
         private MouseState mouseState;
         public SceneMainMenu(MainGame mainGame) : base(mainGame)
@@ -22,7 +24,9 @@ namespace CaseBreaker
         public override void Load()
         {
             playButton = mainGame.Content.Load<Texture2D>("PlayOnly");
-            buttonPosition = new Vector2((mainGame.graphics.PreferredBackBufferWidth / 2) - (playButton.Width / 2), (mainGame.graphics.PreferredBackBufferHeight / 2) - (playButton.Height / 2));
+            editorButton = mainGame.Content.Load<Texture2D>("btnEditor");
+            playBtnPos = new Vector2((mainGame.graphics.PreferredBackBufferWidth / 2) - (playButton.Width / 2), (mainGame.graphics.PreferredBackBufferHeight / 2) - (playButton.Height / 2));
+            editorBtnPos = playBtnPos + new Vector2(0, 100);
             mainGame.IsMouseVisible = true;
 
             oldMouseState = new MouseState();
@@ -39,7 +43,7 @@ namespace CaseBreaker
         public override void Update(GameTime gameTime)
         {
             mouseState = Mouse.GetState();
-            if (Util.IsHover(mouseState, (int)buttonPosition.X, (int)buttonPosition.Y, playButton.Width, playButton.Height) == true)
+            if (Util.IsHover(mouseState, (int)playBtnPos.X, (int)playBtnPos.Y, playButton.Width, playButton.Height) == true)
             {
                 if(mouseState.LeftButton == ButtonState.Pressed && oldMouseState.LeftButton != ButtonState.Pressed)
                 {
@@ -51,8 +55,19 @@ namespace CaseBreaker
                 }
 
             }
+            if (Util.IsHover(mouseState, (int)editorBtnPos.X, (int)editorBtnPos.Y, editorButton.Width, editorButton.Height) == true)
+            {
+                if (mouseState.LeftButton == ButtonState.Pressed && oldMouseState.LeftButton != ButtonState.Pressed)
+                {
+                    oldMouseState = mouseState;
+                }
+                if (mouseState.LeftButton == ButtonState.Released && oldMouseState.LeftButton == ButtonState.Pressed)
+                {
+                    mainGame.gameState.SwitchScene(GameState.SceneType.GameEditor);
+                }
 
-
+            }
+            
             oldMouseState = mouseState;
             base.Update(gameTime);
         }
@@ -60,7 +75,8 @@ namespace CaseBreaker
         public override void Draw(GameTime gameTime)
         {
             mainGame.GraphicsDevice.Clear(Color.Black);
-            spriteBatch.Draw(playButton, buttonPosition, Color.White);   
+            spriteBatch.Draw(playButton, playBtnPos, Color.White);
+            spriteBatch.Draw(editorButton, editorBtnPos, Color.White);
             base.Draw(gameTime);
         }
     }

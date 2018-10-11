@@ -19,5 +19,15 @@ namespace CaseBreaker
             for (int i = 0; i < data.Length; ++i) data[i] = Color.Green;
             Rect.SetData(data);
         }
+
+        public Racket(Texture2D texture, Vector2 pos, int width, int height) : base(texture, pos)
+        {
+            Speed = 4;
+            Texture = texture;
+            Pos = pos;
+            Width = width;
+            Height = height;
+            Power = 1;
+        }
     }
 }

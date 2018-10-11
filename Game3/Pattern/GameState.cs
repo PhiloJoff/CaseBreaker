@@ -13,7 +13,8 @@ namespace CaseBreaker
             GameOver,
             Gameplay,
             Pause,
-            Win
+            Win,
+            GameEditor
         }
         protected MainGame MainGame;
         public Scene CurrentScene {get; protected set;}
@@ -47,6 +48,9 @@ namespace CaseBreaker
                     break;
                 case SceneType.Win:
                     CurrentScene = new SceneWin(MainGame);
+                    break;
+                case SceneType.GameEditor:
+                    CurrentScene = new SceneGameEditor(MainGame);
                     break;
                 default:
                     break;

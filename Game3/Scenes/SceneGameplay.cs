@@ -17,20 +17,29 @@ namespace CaseBreaker
         public Rectangle GameZone { get; set; }
         private Texture2D background;
         private Texture2D tilesBrick;
-        private Texture2D textureBall;
 
-        //int[] mapInt = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-        //    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-        //    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-        //    {1,1,1,1,1,4,4,1,1,1,1,1,1,1,1,1,1},
-        //    {1,1,1,3,3,3,3,3,3,1,1,1,1,1,1,1,1},
-        //    {1,2,2,2,2,2,2,2,2,2,2,1,1,1,1,1,1},
-        //    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-        //    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-        //    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-        //    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-        //    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-        //    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
+        int[,] mapInt = {
+            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+            {1, 1, 1, 1, 1, 4, 4, 1, 1, 1, 1, 1, 1, 1, 1},
+            {1, 1, 1, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1},
+            {1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1},
+            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+        };
         //string[] map = {
         //    "000000000000000",
         //    "000000000000000",
@@ -72,9 +81,11 @@ namespace CaseBreaker
         Racket uneRacket;
         int racketWidth;
         int racketHeight;
+        private Texture2D textureRacket;
 
         Ball uneBall;
         int ballSize;
+        private Texture2D textureBall;
 
         bool isRunning;
 
@@ -95,9 +106,11 @@ namespace CaseBreaker
             GameZone = new Rectangle(25, 25, 495, 555);
             background = mainGame.Content.Load<Texture2D>("backgroundGame");
 
-            racketWidth = 100;
+            racketWidth = 85;
             racketHeight = 15;
-            uneRacket = new Racket(racketWidth, racketHeight, new Vector2(((GameZone.Right) / 2) - (racketWidth / 2), 550), 1, Graphic);
+            textureRacket = mainGame.Content.Load<Texture2D>("racket");
+            //uneRacket = new Racket(racketWidth, racketHeight, new Vector2(((GameZone.Right) / 2) - (racketWidth / 2), 550), 1, Graphic);
+            uneRacket = new Racket(textureRacket, new Vector2(((GameZone.Right) / 2) - (racketWidth / 2), 550), racketWidth, racketHeight);
 
             textureBall = mainGame.Content.Load<Texture2D>("ball");
             ballSize = 12;
@@ -262,13 +275,14 @@ namespace CaseBreaker
                 }
 
             }
-            spriteBatch.Draw(uneRacket.Rect, uneRacket.Pos, Color.White);
+            spriteBatch.Draw(uneRacket.Texture, uneRacket.Pos, Color.White);
 
             if (uneBall.Power >= 1)
                 //spriteBatch.Draw(uneBall.Rect, uneBall.Pos, Color.White);
                 //spriteBatch.Draw(uneBall.Texture, uneBall.Pos, null, Color.White, 0, Vector2.Zero, new Vector2(0.1f, 0.1f), 0, 0);
                 spriteBatch.Draw(uneBall.Texture, uneBall.Pos, Color.White);
-                base.Draw(gameTime);
+
+            base.Draw(gameTime);
         }
 
 
@@ -305,5 +319,33 @@ namespace CaseBreaker
             //Console.WriteLine(mapConsole);
             return theBrick;
         }
+        
+        // Generation de la map de brick
+        //private List<Brick> GenerateMap(int[,] theMap)
+        //{
+        //    List<Brick> theBrick = new List<Brick>();
+        //    float X = 25;
+        //    float Y = 25;
+        //    //string mapConsole = "\n";
+        //    for (int i = 0; i < theMap.Length; i++)
+        //    {
+        //        Y += 0f;
+        //        X += 0f;
+        //        for (int j = 0; j < theMap[i].Length; j++)
+        //        {
+        //            //mapConsole += c;
+        //            if (theMap[i, j] > 0)
+        //                 theBrick.Add(new Brick(tilesBrick, BrickWidth, BrickHeight, new Vector2(X, Y), theMap[i, j]));
+        //            X += 0f + BrickWidth;
+
+        //        }
+        //        Y += BrickHeight;
+        //        X = 25f;
+        //        //mapConsole += "\n";
+        //    }
+
+        //    //Console.WriteLine(mapConsole);
+        //    return theBrick;
+        //}
     }
 }
