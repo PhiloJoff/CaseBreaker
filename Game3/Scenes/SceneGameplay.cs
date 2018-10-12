@@ -18,27 +18,27 @@ namespace CaseBreaker
         private Texture2D background;
         private Texture2D tilesBrick;
 
-        int[,] mapInt = {
-            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-            {1, 1, 1, 1, 1, 4, 4, 1, 1, 1, 1, 1, 1, 1, 1},
-            {1, 1, 1, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1},
-            {1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1},
-            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+        int[,] mapInt = { //int[20,15]
+            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+            {1, 1, 1, 1, 1, 1, 4, 4, 1, 1, 1, 1, 1, 1, 1, 1},
+            {1, 1, 1, 1, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1},
+            {1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1},
+            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+            {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
         };
         //string[] map = {
         //    "000000000000000",
@@ -59,24 +59,24 @@ namespace CaseBreaker
         //    "055555005555550"
         //};
 
-        string[] map = {
-            "000000040000000",
-            "000000414000000",
-            "000000414000000",
-            "000004111400000",
-            "000004111400000",
-            "444441111144444",
-            "041111414111140",
-            "004111414111400",
-            "000411111114000",
-            "004111111111400",
-            "004111111111400",
-            "042111141111240",
-            "042224404422240",
-            "422440000044224",
-            "444000000000444",
-            "055555000555550"
-        };
+        //string[] map = {
+        //    "000000040000000",
+        //    "000000414000000",
+        //    "000000414000000",
+        //    "000004111400000",
+        //    "000004111400000",
+        //    "444441111144444",
+        //    "041111414111140",
+        //    "004111414111400",
+        //    "000411111114000",
+        //    "004111111111400",
+        //    "004111111111400",
+        //    "042111141111240",
+        //    "042224404422240",
+        //    "422440000044224",
+        //    "444000000000444",
+        //    "055555000555550"
+        //};
 
         Racket uneRacket;
         int racketWidth;
@@ -121,7 +121,7 @@ namespace CaseBreaker
             tilesBrick = mainGame.Content.Load<Texture2D>("bricks");
             BrickWidth = 33;
             BrickHeight = 17;
-            mesBricks = GenerateMap(map);
+            mesBricks = GenerateMap(mapInt);
 
             uneBrick = new Brick(tilesBrick, BrickWidth, BrickHeight, new Vector2(GameZone.X + 100, GameZone.Y + 200), 5);
 
@@ -231,26 +231,6 @@ namespace CaseBreaker
                     }
                 }
 
-                //for (int i = mesBricks.Count - 1; i >= 0; i--)
-                //{
-                //    if (mesBricks[i].Power != 0)
-                //    {
-                //        if (Util.IsColide((int)uneBall.Pos.X, (int)uneBall.Pos.Y, uneBall.Width, uneBall.Height,
-                //(int)mesBricks[i].Pos.X, (int)mesBricks[i].Pos.Y, mesBricks[i].Width, mesBricks[i].Height) == true)
-                //        {
-                //            isRunning = false;
-                //            if (uneBall.Rebond(mesBricks[i]) == true)
-                //                mesBricks[i].Power -= 1;
-                //            isRunning = false;
-                //        }
-                //        //mesBricks[i].SetColor(mesBricks[i], Graphic);
-                //    }
-                //    else
-                //    {
-                //        mesBricks.Remove(mesBricks[i]);
-                //    }
-                //}
-
                 if (mesBricks.Count <= 0)
                 {
                     mainGame.gameState.SwitchScene(GameState.SceneType.Win);
@@ -319,33 +299,33 @@ namespace CaseBreaker
             //Console.WriteLine(mapConsole);
             return theBrick;
         }
-        
+
         // Generation de la map de brick
-        //private List<Brick> GenerateMap(int[,] theMap)
-        //{
-        //    List<Brick> theBrick = new List<Brick>();
-        //    float X = 25;
-        //    float Y = 25;
-        //    //string mapConsole = "\n";
-        //    for (int i = 0; i < theMap.Length; i++)
-        //    {
-        //        Y += 0f;
-        //        X += 0f;
-        //        for (int j = 0; j < theMap[i].Length; j++)
-        //        {
-        //            //mapConsole += c;
-        //            if (theMap[i, j] > 0)
-        //                 theBrick.Add(new Brick(tilesBrick, BrickWidth, BrickHeight, new Vector2(X, Y), theMap[i, j]));
-        //            X += 0f + BrickWidth;
+        private List<Brick> GenerateMap(int[,] theMap)
+        {
+            List<Brick> theBrick = new List<Brick>();
+            float X = 25;
+            float Y = 25;
+            //string mapConsole = "\n";
+            for (int row = 0; row <= theMap.GetUpperBound(0); row++)
+            {
+                for (int colunm = 0; colunm < theMap.GetUpperBound(1); colunm++)
+                {
+                    Y += 0f;
+                    X += 0f;
+                    //mapConsole += c;
+                    if (theMap[row, colunm] > 0)
+                        theBrick.Add(new Brick(tilesBrick, BrickWidth, BrickHeight, new Vector2(X, Y), theMap[row, colunm]));
+                    X += 0f + BrickWidth;
 
-        //        }
-        //        Y += BrickHeight;
-        //        X = 25f;
-        //        //mapConsole += "\n";
-        //    }
+                }
+                Y += BrickHeight;
+                X = 25f;
+                //mapConsole += "\n";
+            }
 
-        //    //Console.WriteLine(mapConsole);
-        //    return theBrick;
-        //}
+            //Console.WriteLine(mapConsole);
+            return theBrick;
+        }
     }
 }
