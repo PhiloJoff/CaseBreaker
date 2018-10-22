@@ -40,24 +40,6 @@ namespace CaseBreaker
             {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
             {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
         };
-        //string[] map = {
-        //    "000000000000000",
-        //    "000000000000000",
-        //    "000000000000000",
-        //    "111111111111111",
-        //    "111111111111111",
-        //    "111111151111111",
-        //    "111114444411111",
-        //    "111333333333111",
-        //    "122222222222221",
-        //    "111111111111111",
-        //    "111111111111111",
-        //    "125522334422221",
-        //    "000000000000000",
-        //    "000000000000000",
-        //    "000000000000000",
-        //    "055555005555550"
-        //};
 
         //string[] map = {
         //    "000000040000000",
@@ -267,38 +249,38 @@ namespace CaseBreaker
 
 
         // Generation de la map de brick
-        private List<Brick> GenerateMap(string[] theMap)
-        {
-            List<Brick> theBrick = new List<Brick>();
-            float X = 25;
-            float Y = 25;
-            //string mapConsole = "\n";
-            int toNumber;
-            bool isNumber;
-            for (int i = 0; i < theMap.Length; i++)
-            {
-                Y += 0f;
-                X += 0f;
-                foreach (char c in theMap[i])
-                {
-                    //mapConsole += c;
-                    isNumber = Int32.TryParse(c.ToString(), out toNumber);
-                    if (isNumber == true)
-                    {
-                        if (toNumber > 0)
-                            theBrick.Add(new Brick(tilesBrick, BrickWidth, BrickHeight, new Vector2(X, Y), toNumber));
-                    }
-                    X += 0f + BrickWidth;
+        //private List<Brick> GenerateMap(string[] theMap)
+        //{
+        //    List<Brick> theBrick = new List<Brick>();
+        //    float X = 25;
+        //    float Y = 25;
+        //    //string mapConsole = "\n";
+        //    int toNumber;
+        //    bool isNumber;
+        //    for (int i = 0; i < theMap.Length; i++)
+        //    {
+        //        Y += 0f;
+        //        X += 0f;
+        //        foreach (char c in theMap[i])
+        //        {
+        //            //mapConsole += c;
+        //            isNumber = Int32.TryParse(c.ToString(), out toNumber);
+        //            if (isNumber == true)
+        //            {
+        //                if (toNumber > 0)
+        //                    theBrick.Add(new Brick(tilesBrick, BrickWidth, BrickHeight, new Vector2(X, Y), toNumber));
+        //            }
+        //            X += 0f + BrickWidth;
 
-                }
-                Y += BrickHeight;
-                X = 25f;
-                //mapConsole += "\n";
-            }
+        //        }
+        //        Y += BrickHeight;
+        //        X = 25f;
+        //        //mapConsole += "\n";
+        //    }
 
-            //Console.WriteLine(mapConsole);
-            return theBrick;
-        }
+        //    //Console.WriteLine(mapConsole);
+        //    return theBrick;
+        //}
 
         // Generation de la map de brick
         private List<Brick> GenerateMap(int[,] theMap)

@@ -13,14 +13,15 @@ namespace CaseBreaker
     {
         
         private Texture2D background;
-
+        
         private int[] editorPower = { 1, 2, 3, 4, 5, 0 };
         private Rectangle ZoneEditor;
         Texture2D emptyTexture2D;
-        Texture2D brick;
-        private Brick[] bricksEditor;
-        private int brickEditorWidth;
-        private int brickEditorHeight;
+        Texture2D cellTexture;
+        private Cell[] cellsEditor;
+        private int cellWidth;
+        private int cellHeight;
+        private Cell currentCell;
 
 
         private List<Brick> bricksGame;
@@ -61,7 +62,7 @@ namespace CaseBreaker
         public override void Load()
         {
             background = mainGame.Content.Load<Texture2D>("backgroundEditor");
-            brick = mainGame.Content.Load<Texture2D>("bricks");
+            cellTexture = mainGame.Content.Load<Texture2D>("bricks");
 
             oldMouseState = new MouseState();
             oldMouseState = Mouse.GetState();
@@ -71,29 +72,30 @@ namespace CaseBreaker
 
             brickZone = new Rectangle(25, 25, 495, 365);
 
-            brickEditorWidth = 38;
-            brickEditorHeight = 20;
-            bricksEditor = new Brick[6];
+            cellWidth = 38;
+            cellHeight = 20;
+            cellsEditor = new Cell[6];
             int x = 0;
             int y = 0;
-            for (int i = 0; i < bricksEditor.Length; i++)
+            for (int i = 0; i < cellsEditor.Length; i++)
             {
-                bricksEditor[i] = new Brick(
-                    new Texture2D(mainGame.GraphicsDevice, brickEditorWidth, brickEditorHeight),
-                    brickEditorWidth,
-                    brickEditorHeight,
+                cellsEditor[i] = new Cell(
+                    new Texture2D(mainGame.GraphicsDevice, cellWidth, cellHeight),
+                    cellWidth,
+                    cellHeight,
                     new Vector2(ZoneEditor.X + x, ZoneEditor.Y + y),
                     editorPower[i]);
                 if(i == 2)
                 {
                     x = 0;
-                    y += brickEditorHeight;
+                    y += cellHeight;
                 }
                 else
                 {
-                    x += brickEditorWidth;
+                    x += cellWidth;
                 }
             }
+            currentCell = cellsEditor[5];
             brickGameWidth = 33;
             brickGameHeight = 17;
             emptyTexture2D = new Texture2D(mainGame.GraphicsDevice, brickGameWidth, brickGameHeight);
@@ -112,13 +114,15 @@ namespace CaseBreaker
             mouseState = Mouse.GetState();
             if(HoverZone(ZoneEditor) == true)
             {
-                for (int i = 0; i < bricksEditor.Length; i++)
+                for (int i = 0; i < cellsEditor.Length; i++)
                 {
-                    if (HoverBrick(bricksEditor[i]) == true &&
+                    if (HoverBrick(cellsEditor[i]) == true &&
                         mouseState.LeftButton == ButtonState.Pressed && 
                         mouseState.LeftButton != oldMouseState.LeftButton  )
                     {
-                        Console.WriteLine($"Brick Editor : {i}");
+                        currentCell = cellsEditor[i];
+                        currentCell.Select();
+                        Console.WriteLine($"Cell Power : {currentCell.Power} et {currentCell.Selected}");
                         break;
                     }
                 }
@@ -128,9 +132,17 @@ namespace CaseBreaker
                 {
                     if (HoverBrick(bricksGame[i]) == true &&
                         mouseState.LeftButton == ButtonState.Pressed &&
-                        mouseState.LeftButton != oldMouseState.LeftButton)
+                        mouseState.LeftButton != oldMouseState.LeftButton &&
+                        currentCell.Selected == true)
                     {
-                        Console.WriteLine($"Brick game : {i}");
+                        if (bricksGame[i].Power != currentCell.Power)
+                        {
+                            bricksGame[i].Power = currentCell.Power;
+
+
+                        }
+
+                        Console.WriteLine($"Brick game : {i} et power : {bricksGame[i].Power}");
                         break;
                     }
                 }
@@ -145,6 +157,14 @@ namespace CaseBreaker
         {
             mainGame.GraphicsDevice.Clear(Color.Black);
             spriteBatch.Draw(background, Vector2.Zero, Color.White);
+            foreach (Brick b in bricksGame)
+            {
+                if (b.Power >= 1)
+                {
+                    spriteBatch.Draw(b.Texture, b.Pos, b.GetTile(), Color.White);
+                }
+
+            }
             base.Draw(gameTime);
         }
 
@@ -163,14 +183,13 @@ namespace CaseBreaker
                 {
                     Y += 0f;
                     X += 0f;
-                    theBrick.Add(new Brick(emptyTexture2D, brickGameWidth, brickGameHeight, new Vector2(X, Y), theMap[row, colunm]));
+                    theBrick.Add(new Brick(cellTexture, brickGameWidth, brickGameHeight, new Vector2(X, Y), theMap[row, colunm]));
                     X += 0f + brickGameWidth;
 
                 }
                 Y += brickGameHeight;
                 X = 25f;
             }
-            
             return theBrick;
         }
 
@@ -185,9 +204,5 @@ namespace CaseBreaker
         }
 
         
-        public Rectangle GetTile(int power)
-        {
-            return new Rectangle((power - 1) * brickEditorWidth, 0, brickEditorWidth, brickEditorWidth);
-        }
     }
 }

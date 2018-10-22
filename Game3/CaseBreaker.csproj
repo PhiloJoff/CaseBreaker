@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Cores\Ball.cs" />
     <Compile Include="Cores\Brick.cs" />
+    <Compile Include="Cores\Cell.cs" />
     <Compile Include="Pattern\IActor.cs" />
     <Compile Include="Pattern\Sprite.cs" />
     <Compile Include="Pattern\Util.cs" />

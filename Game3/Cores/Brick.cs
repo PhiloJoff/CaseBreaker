@@ -16,7 +16,7 @@ namespace CaseBreaker
         public Texture2D Rect{  get; protected set; }
 
         public Rectangle Box { get; set; }
-        protected Color[] data;
+        //protected Color[] data;
 
         public Brick(Texture2D texture, Vector2 pos) : base(texture, pos)
         {
@@ -24,28 +24,28 @@ namespace CaseBreaker
             Pos = pos;
         }
 
-        public Brick(int width, int height, Vector2 pos, int power, GraphicsDeviceManager graphics)
-        {
-            Width = width;
-            Height = height;
-            Pos = pos;
-            if (power > 5 || power <= 0)
-                Power = 1;
-            else
-                Power = power;
-            Box = new Rectangle((int)Pos.X, (int)Pos.Y, Width, Height);
+        //public Brick(int width, int height, Vector2 pos, int power, GraphicsDeviceManager graphics)
+        //{
+        //    Width = width;
+        //    Height = height;
+        //    Pos = pos;
+        //    if (power > 5 || power < 0)
+        //        Power = 1;
+        //    else
+        //        Power = power;
+        //    Box = new Rectangle((int)Pos.X, (int)Pos.Y, Width, Height);
 
-            data = new Color[width * height];
-            Texture = new Texture2D(graphics.GraphicsDevice, Width, Height);
-            SetColor(this, graphics);
-        }
+        //    data = new Color[width * height];
+        //    Texture = new Texture2D(graphics.GraphicsDevice, Width, Height);
+        //    SetColor(this, graphics);
+        //}
 
         public Brick(Texture2D texture, int width, int height, Vector2 pos, int power)
         {
             Width = width;
             Height = height;
             Pos = pos;
-            if (power > 5 || power <= 0)
+            if (power > 5 || power < 0)
                 Power = 1;
             else
                 Power = power;
@@ -56,27 +56,27 @@ namespace CaseBreaker
 
 
 
-        public void SetColor(Brick b, GraphicsDeviceManager graphics)
-        {
-            switch (Power)
-            {
-                case 1:
-                    for (int i = 0; i < data.Length; ++i) data[i] = Color.Orange;
-                    break;
-                case 2:
-                    for (int i = 0; i < data.Length; ++i) data[i] = Color.Chocolate;
-                    break;
-                case 3:
-                    for (int i = 0; i < data.Length; ++i) data[i] = Color.Brown;
-                    break;
-                default:
-                    for (int i = 0; i < data.Length; ++i) data[i] = Color.DarkGray;
-                    break;
+        //public void SetColor(Brick b, GraphicsDeviceManager graphics)
+        //{
+        //    switch (Power)
+        //    {
+        //        case 1:
+        //            for (int i = 0; i < data.Length; ++i) data[i] = Color.Orange;
+        //            break;
+        //        case 2:
+        //            for (int i = 0; i < data.Length; ++i) data[i] = Color.Chocolate;
+        //            break;
+        //        case 3:
+        //            for (int i = 0; i < data.Length; ++i) data[i] = Color.Brown;
+        //            break;
+        //        default:
+        //            for (int i = 0; i < data.Length; ++i) data[i] = Color.DarkGray;
+        //            break;
 
-            }
+        //    }
 
-            Texture.SetData(data);
-        }
+        //    Texture.SetData(data);
+        //}
 
         public Rectangle GetTile()
         {

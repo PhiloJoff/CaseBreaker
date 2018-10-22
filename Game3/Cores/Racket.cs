@@ -12,13 +12,13 @@ namespace CaseBreaker
 
     {
         public float Speed { get; set; }
-        public Racket(int width, int height, Vector2 pos, int power, GraphicsDeviceManager graphics) :base(width, height, pos, power,graphics)
-        {
-            this.Speed = 5;
-            Rect = new Texture2D(graphics.GraphicsDevice, width, height);
-            for (int i = 0; i < data.Length; ++i) data[i] = Color.Green;
-            Rect.SetData(data);
-        }
+        //public Racket(int width, int height, Vector2 pos, int power, GraphicsDeviceManager graphics) :base(width, height, pos, power,graphics)
+        //{
+        //    this.Speed = 5;
+        //    Rect = new Texture2D(graphics.GraphicsDevice, width, height);
+        //    for (int i = 0; i < data.Length; ++i) data[i] = Color.Green;
+        //    Rect.SetData(data);
+        //}
 
         public Racket(Texture2D texture, Vector2 pos, int width, int height) : base(texture, pos)
         {

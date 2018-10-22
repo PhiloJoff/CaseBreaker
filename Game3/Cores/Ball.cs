@@ -19,19 +19,19 @@ namespace CaseBreaker
 
         private float RadiusPow2 { get; set; }
 
-        public Ball(int width, int height, Vector2 pos, int power, GraphicsDeviceManager graphics) : base(width, height, pos, power, graphics)
-        {
-            Speed = 4;
-            Rect = new Texture2D(graphics.GraphicsDevice, width, height);
-            for (int i = 0; i < data.Length; ++i) data[i] = Color.Red;
-            Rect.SetData(data);
-            Center = new Vector2(Pos.X + (Width / 2), Pos.Y + (Height / 2));
-            AngleConstant = (float)(45 * (Math.PI / 180));
-            Angle = AngleConstant;
-            ballDirectionX = 1;
-            ballDirectionY = -1;
-            RadiusPow2 = width * width;
-        }
+        //public Ball(int width, int height, Vector2 pos, int power, GraphicsDeviceManager graphics) : base(width, height, pos, power, graphics)
+        //{
+        //    Speed = 4;
+        //    Rect = new Texture2D(graphics.GraphicsDevice, width, height);
+        //    for (int i = 0; i < data.Length; ++i) data[i] = Color.Red;
+        //    Rect.SetData(data);
+        //    Center = new Vector2(Pos.X + (Width / 2), Pos.Y + (Height / 2));
+        //    AngleConstant = (float)(45 * (Math.PI / 180));
+        //    Angle = AngleConstant;
+        //    ballDirectionX = 1;
+        //    ballDirectionY = -1;
+        //    RadiusPow2 = width * width;
+        //}
 
         public Ball(Texture2D texture, Vector2 pos, int width, int height) : base(texture, pos)
         {
