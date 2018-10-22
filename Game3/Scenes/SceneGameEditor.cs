@@ -1,11 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using XInput = Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace CaseBreaker
 {
@@ -16,19 +18,19 @@ namespace CaseBreaker
         
         private int[] editorPower = { 1, 2, 3, 4, 5, 0 };
         private Rectangle ZoneEditor;
-        Texture2D emptyTexture2D;
-        Texture2D cellTexture;
+        private Texture2D emptyTexture2D;
+        private Texture2D cellTexture;
         private Cell[] cellsEditor;
         private int cellWidth;
         private int cellHeight;
         private Cell currentCell;
 
 
-        private List<Brick> bricksGame;
+        private List<Cell> bricksGame;
         int brickGameWidth;
         int brickGameHeight;
         private Rectangle brickZone;
-        int[,] mapInt = { //int[20,15]
+        private int[,] mapInt = { //int[20,15]
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -51,8 +53,10 @@ namespace CaseBreaker
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
         };
 
-        MouseState oldMouseState;
-        MouseState mouseState;
+        private MouseState oldMouseState;
+        private MouseState mouseState;
+
+        private SaveFileDialog saveFileDialog;
 
 
         public SceneGameEditor(MainGame mainGame) : base(mainGame)
@@ -84,7 +88,8 @@ namespace CaseBreaker
                     cellWidth,
                     cellHeight,
                     new Vector2(ZoneEditor.X + x, ZoneEditor.Y + y),
-                    editorPower[i]);
+                    editorPower[i]
+                    );
                 if(i == 2)
                 {
                     x = 0;
@@ -117,12 +122,11 @@ namespace CaseBreaker
                 for (int i = 0; i < cellsEditor.Length; i++)
                 {
                     if (HoverBrick(cellsEditor[i]) == true &&
-                        mouseState.LeftButton == ButtonState.Pressed && 
+                        mouseState.LeftButton == XInput.ButtonState.Pressed && 
                         mouseState.LeftButton != oldMouseState.LeftButton  )
                     {
                         currentCell = cellsEditor[i];
                         currentCell.Select();
-                        Console.WriteLine($"Cell Power : {currentCell.Power} et {currentCell.Selected}");
                         break;
                     }
                 }
@@ -131,15 +135,14 @@ namespace CaseBreaker
                 for (int i = 0; i < bricksGame.Count; i++)
                 {
                     if (HoverBrick(bricksGame[i]) == true &&
-                        mouseState.LeftButton == ButtonState.Pressed &&
+                        mouseState.LeftButton == XInput.ButtonState.Pressed &&
                         mouseState.LeftButton != oldMouseState.LeftButton &&
                         currentCell.Selected == true)
                     {
                         if (bricksGame[i].Power != currentCell.Power)
                         {
                             bricksGame[i].Power = currentCell.Power;
-
-
+                            mapInt[bricksGame[i].Row, bricksGame[i].Colunm] = currentCell.Power;
                         }
 
                         Console.WriteLine($"Brick game : {i} et power : {bricksGame[i].Power}");
@@ -171,9 +174,9 @@ namespace CaseBreaker
 
 
         //Generation de la map de brick
-        private List<Brick> GenerateMap(int[,] theMap)
+        private List<Cell> GenerateMap(int[,] theMap)
         {
-            List<Brick> theBrick = new List<Brick>();
+            List<Cell> theBrick = new List<Cell>();
             float X = 25;
             float Y = 25;
             //string mapConsole = "\n";
@@ -183,7 +186,7 @@ namespace CaseBreaker
                 {
                     Y += 0f;
                     X += 0f;
-                    theBrick.Add(new Brick(cellTexture, brickGameWidth, brickGameHeight, new Vector2(X, Y), theMap[row, colunm]));
+                    theBrick.Add(new Cell(cellTexture, brickGameWidth, brickGameHeight, new Vector2(X, Y), theMap[row, colunm], row, colunm));
                     X += 0f + brickGameWidth;
 
                 }
