@@ -8,6 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
+using System.Runtime.Serialization.Json;
 
 namespace CaseBreaker
 {
@@ -27,8 +29,8 @@ namespace CaseBreaker
 
 
         private List<Cell> bricksGame;
-        int brickGameWidth;
-        int brickGameHeight;
+        private int brickGameWidth;
+        private int brickGameHeight;
         private Rectangle brickZone;
         private int[,] mapInt = { //int[20,15]
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -57,6 +59,8 @@ namespace CaseBreaker
         private MouseState mouseState;
 
         private SaveFileDialog saveFileDialog;
+        
+        private Rectangle saveRect;
 
 
         public SceneGameEditor(MainGame mainGame) : base(mainGame)
@@ -68,6 +72,7 @@ namespace CaseBreaker
             background = mainGame.Content.Load<Texture2D>("backgroundEditor");
             cellTexture = mainGame.Content.Load<Texture2D>("bricks");
 
+
             oldMouseState = new MouseState();
             oldMouseState = Mouse.GetState();
             mouseState = new MouseState();
@@ -75,6 +80,8 @@ namespace CaseBreaker
             ZoneEditor = new Rectangle(617, 325, 116, 40);
 
             brickZone = new Rectangle(25, 25, 495, 365);
+
+            saveRect = new Rectangle(617, 388, 20, 20);
 
             cellWidth = 38;
             cellHeight = 20;
@@ -130,7 +137,8 @@ namespace CaseBreaker
                         break;
                     }
                 }
-            } else if (HoverZone(brickZone)== true)
+            }
+            else if (HoverZone(brickZone)== true)
             {
                 for (int i = 0; i < bricksGame.Count; i++)
                 {
@@ -149,9 +157,41 @@ namespace CaseBreaker
                         break;
                     }
                 }
+                
 
             }
+            else if (HoverZone(saveRect) == true)
+            {
+                if (mouseState.LeftButton == XInput.ButtonState.Pressed &&
+                    mouseState.LeftButton != oldMouseState.LeftButton)
+                {
+                    saveFileDialog = new SaveFileDialog();
+                    saveFileDialog.AddExtension = true;
+                    saveFileDialog.DefaultExt = ".lvl";
+                    saveFileDialog.Filter = "Stage File|*.lvl";
+                    saveFileDialog.Title = "Save a stage file";
+                    if(saveFileDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        Console.WriteLine("Save ok");
+                        if (saveFileDialog.FileName.Equals("") != true)
+                        {
+                            saveFileDialog.FileName = "StageEditor";
+                        }
+                        SaveEditor saveEditor = new SaveEditor();
+                        saveEditor.ConvertToWrite(mapInt);
+                        MemoryStream stream = new MemoryStream();
+                        DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(SaveEditor));
+                        serializer.WriteObject(stream, saveEditor);
+                        stream.Position = 0;
+                        StreamReader streamReader = new StreamReader(stream);
+                        string strMap = streamReader.ReadToEnd();
+                        File.WriteAllText(saveFileDialog.FileName, strMap);
 
+                    }
+
+                    
+                }
+            }
             oldMouseState = mouseState;
             base.Update(gameTime);
         }
