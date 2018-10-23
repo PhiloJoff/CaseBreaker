@@ -197,13 +197,12 @@ namespace CaseBreaker
                         if (Util.IsColide((int)uneBall.Pos.X, (int)uneBall.Pos.Y, uneBall.Width, uneBall.Height,
                 (int)mesBricks[i].Pos.X, (int)mesBricks[i].Pos.Y, mesBricks[i].Width, mesBricks[i].Height) == true)
                         {
-                            isRunning = false;
                             if (uneBall.Rebond(mesBricks[i]) == true)
                             {
                                 mesBricks[i].Power -= 1;
                                 break;
                             }
-                            isRunning = false;
+                            //isRunning = false;
                         }
                         //mesBricks[i].SetColor(mesBricks[i], Graphic);
                     }
