@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CaseBreaker.Scenes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,7 +15,8 @@ namespace CaseBreaker
             Gameplay,
             Pause,
             Win,
-            GameEditor
+            GameEditor,
+            GameplayLoaded
         }
         protected MainGame MainGame;
         public Scene CurrentScene {get; protected set;}
@@ -51,6 +53,9 @@ namespace CaseBreaker
                     break;
                 case SceneType.GameEditor:
                     CurrentScene = new SceneGameEditor(MainGame);
+                    break;
+                case SceneType.GameplayLoaded:
+                    CurrentScene = new SceneGameplayLoad(MainGame);
                     break;
                 default:
                     break;

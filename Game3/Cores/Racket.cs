@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CaseBreaker
 {
-    class Racket : Brick
+    public class Racket : Brick
 
     {
         public float Speed { get; set; }

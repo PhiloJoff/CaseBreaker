@@ -9,37 +9,16 @@ using System.Threading.Tasks;
 
 namespace CaseBreaker
 {
-    class SceneGameplay : Scene
+    public class SceneGameplay : Scene
     {
-        private List<Brick> mesBricks;
-        private int BrickWidth { get; set; }
-        private int BrickHeight { get; set; }
-        public Rectangle GameZone { get; set; }
-        private Texture2D background;
-        private Texture2D tilesBrick;
+        protected List<Brick> mesBricks;
+        protected int BrickWidth { get; set; }
+        protected int BrickHeight { get; set; }
+        protected Rectangle GameZone { get; set; }
+        protected Texture2D background;
+        protected Texture2D tilesBrick;
 
-        int[,] mapInt = { //int[20,15]
-            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-            {1, 1, 1, 1, 1, 1, 4, 4, 1, 1, 1, 1, 1, 1, 1, 1},
-            {1, 1, 1, 1, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1},
-            {1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1},
-            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-            {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
-        };
+        protected int[,] mapInt;
 
         //string[] map = {
         //    "000000040000000",
@@ -60,21 +39,21 @@ namespace CaseBreaker
         //    "055555000555550"
         //};
 
-        Racket uneRacket;
-        int racketWidth;
-        int racketHeight;
-        private Texture2D textureRacket;
+        protected Racket uneRacket;
+        protected int racketWidth;
+        protected int racketHeight;
+        protected Texture2D textureRacket;
 
-        Ball uneBall;
-        int ballSize;
-        private Texture2D textureBall;
+        protected Ball uneBall;
+        protected int ballSize;
+        protected Texture2D textureBall;
 
-        bool isRunning;
+        protected bool isRunning;
 
-        KeyboardState keyboardState;
-        KeyboardState oldKbState;
+        protected KeyboardState keyboardState;
+        protected KeyboardState oldKbState;
 
-        Brick uneBrick;
+        protected Brick uneBrick;
 
         public SceneGameplay(MainGame mainGame) : base(mainGame)
         {
@@ -82,6 +61,29 @@ namespace CaseBreaker
 
         public override void Load()
         {
+            mapInt = new int[,]{ //int[20,15]
+                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                {1, 1, 1, 1, 1, 1, 4, 4, 1, 1, 1, 1, 1, 1, 1, 1},
+                {1, 1, 1, 1, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1},
+                {1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1},
+                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+            };
+
             mainGame.IsMouseVisible = false;
             isRunning = false;
 
@@ -105,8 +107,7 @@ namespace CaseBreaker
             BrickHeight = 17;
             mesBricks = GenerateMap(mapInt);
 
-            uneBrick = new Brick(tilesBrick, BrickWidth, BrickHeight, new Vector2(GameZone.X + 100, GameZone.Y + 200), 5);
-
+        
             oldKbState = Keyboard.GetState();
             base.Load();
         }
@@ -175,7 +176,7 @@ namespace CaseBreaker
 
                 if (uneBall.Pos.Y >= GameZone.Bottom - ballSize)
                 {
-                    mainGame.gameState.SwitchScene(GameState.SceneType.Gameplay);
+                    Reset();
                 }
 
                 if (uneBall.Pos.Y < GameZone.Y)
@@ -246,7 +247,16 @@ namespace CaseBreaker
             base.Draw(gameTime);
         }
 
+        public void Reset()
+        {
+            uneBall = new Ball(textureBall, new Vector2(((GameZone.Right) / 2) - (ballSize / 2), uneRacket.Pos.Y - ballSize), ballSize, ballSize);
+            uneRacket = new Racket(textureRacket, new Vector2(((GameZone.Right) / 2) - (racketWidth / 2), 550), racketWidth, racketHeight);
 
+            isRunning = false;
+            mesBricks = new List<Brick>();
+            mesBricks = GenerateMap(mapInt);
+
+        }
         // Generation de la map de brick
         //private List<Brick> GenerateMap(string[] theMap)
         //{
@@ -282,7 +292,7 @@ namespace CaseBreaker
         //}
 
         // Generation de la map de brick
-        private List<Brick> GenerateMap(int[,] theMap)
+        protected List<Brick> GenerateMap(int[,] theMap)
         {
             List<Brick> theBrick = new List<Brick>();
             float X = 25;

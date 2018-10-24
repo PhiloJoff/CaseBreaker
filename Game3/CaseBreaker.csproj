@@ -50,6 +50,7 @@
     <Compile Include="Pattern\Util.cs" />
     <Compile Include="Scenes\SceneGameEditor.cs" />
     <Compile Include="Scenes\SceneGameOver.cs" />
+    <Compile Include="Scenes\SceneGameplayLoad.cs" />
     <Compile Include="Scenes\SceneWin.cs" />
     <Compile Include="Scenes\ScenePause.cs" />
     <Compile Include="Scenes\SceneGameplay.cs" />

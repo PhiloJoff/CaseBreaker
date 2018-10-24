@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CaseBreaker
 {
-    class Ball : Brick
+    public class Ball : Brick
     {
         public float Speed { get; set; }
         public Vector2 Center;

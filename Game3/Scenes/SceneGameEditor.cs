@@ -144,7 +144,7 @@ namespace CaseBreaker
                 {
                     if (HoverBrick(bricksGame[i]) == true &&
                         mouseState.LeftButton == XInput.ButtonState.Pressed &&
-                        mouseState.LeftButton != oldMouseState.LeftButton &&
+                        //mouseState.LeftButton != oldMouseState.LeftButton &&
                         currentCell.Selected == true)
                     {
                         if (bricksGame[i].Power != currentCell.Power)
@@ -152,8 +152,7 @@ namespace CaseBreaker
                             bricksGame[i].Power = currentCell.Power;
                             mapInt[bricksGame[i].Row, bricksGame[i].Colunm] = currentCell.Power;
                         }
-
-                        Console.WriteLine($"Brick game : {i} et power : {bricksGame[i].Power}");
+                        
                         break;
                     }
                 }
@@ -172,20 +171,7 @@ namespace CaseBreaker
                     saveFileDialog.Title = "Save a stage file";
                     if(saveFileDialog.ShowDialog() == DialogResult.OK)
                     {
-                        Console.WriteLine("Save ok");
-                        if (saveFileDialog.FileName.Equals("") != true)
-                        {
-                            saveFileDialog.FileName = "StageEditor";
-                        }
-                        SaveEditor saveEditor = new SaveEditor();
-                        saveEditor.ConvertToWrite(mapInt);
-                        MemoryStream stream = new MemoryStream();
-                        DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(SaveEditor));
-                        serializer.WriteObject(stream, saveEditor);
-                        stream.Position = 0;
-                        StreamReader streamReader = new StreamReader(stream);
-                        string strMap = streamReader.ReadToEnd();
-                        File.WriteAllText(saveFileDialog.FileName, strMap);
+                        SaveFile(saveFileDialog.FileName);
 
                     }
 
@@ -246,6 +232,20 @@ namespace CaseBreaker
             return Util.IsHover(mouseState, (int)b.Pos.X, (int)b.Pos.Y, b.Width, b.Height);
         }
 
+        private void SaveFile(string path)
+        {
+            Console.WriteLine(path);
+            SaveEditor saveEditor = new SaveEditor();
+            saveEditor.ConvertToWrite(mapInt);
+            MemoryStream stream = new MemoryStream();
+            DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(SaveEditor));
+            serializer.WriteObject(stream, saveEditor);
+            stream.Position = 0;
+            StreamReader streamReader = new StreamReader(stream);
+            string strMap = streamReader.ReadToEnd();
+            path = @"" + path;
+            File.WriteAllText(path, strMap);
+        }
         
     }
 }
