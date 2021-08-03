@@ -24,7 +24,7 @@ namespace CaseBreaker
                 PreferredBackBufferHeight = windowHeight,
                 PreferredBackBufferWidth = windowWidth
             };
-            Window.Title = "CasseBreaker";
+            Window.Title = "CaseBreaker";
             Content.RootDirectory = "Content";
             gameState = new GameState(this);
         }
